@@ -2,7 +2,6 @@ import UIKit
 
 final class RegistrationViewController: UIViewController {
     private let profileImageView = UIImageView()
-    
     private let helloLabel = UILabel()
     private let greetingLabel = UILabel()
     private let nameTextField = UITextField()
@@ -31,12 +30,21 @@ final class RegistrationViewController: UIViewController {
         view.addSubview(profileImageView)
     }
     
+    private func configureHelloLabel() {
+        helloLabel.text = "Здравствуйте!"
+        helloLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        helloLabel.textColor = UIColor(named: "YPTextGray")
+        helloLabel.numberOfLines = .zero
+    }
+    
     private func configureGreetingLabel() {
-        greetingLabel.text = "Здравствуйте!"
-        greetingLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        greetingLabel.text = "Давайте познакомимся с вами поближе"
+        greetingLabel.font = .systemFont(ofSize: 17, weight: .regular)
         greetingLabel.textColor = UIColor(named: "YPTextGray")
         greetingLabel.numberOfLines = .zero
     }
+    
+
 }
 
 
