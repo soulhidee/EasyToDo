@@ -64,9 +64,22 @@ final class RegistrationViewController: UIViewController {
         view.addSubview(nameTextField)
     }
     
+    private func configureStartButton() {
+        startButton.setTitle("Начать", for: .normal)
+        startButton.setTitleColor(.white, for: .normal)
+        startButton.backgroundColor = UIColor(named: "YPGreen") ?? .green
+        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+
+        startButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(startButton)
+    }
     
     
     
+    @objc func startButtonTapped() {
+        print("Кнопка нажата")
+    }
     
     
     
