@@ -17,7 +17,9 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        configureNameTextFieldActions()
         nameTextField.delegate = self
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -146,11 +148,24 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         helloStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    // MARK: - Actions
-    @objc func startButtonTapped() {
-        print("Кнопка нажата")
+    private func configureNameTextFieldActions() {
+        nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        startButton.alpha = 0.5
+        startButton.isEnabled = false
     }
     
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        let trimmedText = textField.text?.trimmingCharacters(in: .whitespaces) ?? ""
+        startButton.isEnabled = trimmedText.count >= 2
+        startButton.alpha = startButton.isEnabled ? 1 : 0.5
+    }
+    
+    // MARK: - Actions
+    @objc private func startButtonTapped() {
+        print("Нажал")
+    }
+    
+    // MARK: - Delegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let allowedCharacters = CharacterSet.letters.union(.whitespaces)
         let characterSet = CharacterSet(charactersIn: string)
