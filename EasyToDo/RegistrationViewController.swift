@@ -167,7 +167,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Delegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let allowedCharacters = CharacterSet.letters.union(.whitespaces)
+        let allowedCharacters = CharacterSet.letters
         let characterSet = CharacterSet(charactersIn: string)
         guard allowedCharacters.isSuperset(of: characterSet) else {
             return false
