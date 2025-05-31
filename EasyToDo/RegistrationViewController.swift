@@ -7,7 +7,8 @@ final class RegistrationViewController: UIViewController {
     private let nameTextField = UITextField()
     private let startButton = UIButton()
     private let settingsHintLabel = UILabel()
-    private let stackView = UIStackView()
+    private let mainStackView = UIStackView()
+    private let helloStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,7 +18,8 @@ final class RegistrationViewController: UIViewController {
     }
     
     private func setupViews() {
-        configureStackView()
+        configureMainStackView()
+        configureHelloStackView()
         configureProfileImageView()
         configureHelloLabel()
         configureGreetingLabel()
@@ -29,10 +31,21 @@ final class RegistrationViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 172),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -179)
+            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 172),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -179),
+            
+            profileImageView.widthAnchor.constraint(equalTo: profileImageView.heightAnchor),
+            
+            nameTextField.heightAnchor.constraint(equalToConstant: 44),
+            nameTextField.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
+            
+            helloStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            startButton.heightAnchor.constraint(equalToConstant: 55),
+            startButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 92),
+            startButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: -92)
+            
         ])
     }
     
@@ -68,6 +81,15 @@ final class RegistrationViewController: UIViewController {
         nameTextField.layer.borderColor = UIColor(named: "YPGreen")?.cgColor ?? UIColor.green.cgColor
         nameTextField.layer.borderWidth = 1
         nameTextField.layer.cornerRadius = 10
+       
+        let paddingViewLeft = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
+        nameTextField.leftView = paddingViewLeft
+        nameTextField.leftViewMode = .always
+        
+        let paddingViewRight = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
+        nameTextField.rightView = paddingViewRight
+        nameTextField.rightViewMode = .always
+       
         nameTextField.layer.masksToBounds = true
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -78,6 +100,7 @@ final class RegistrationViewController: UIViewController {
         startButton.backgroundColor = UIColor(named: "YPGreen") ?? .green
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        startButton.layer.cornerRadius = 16
         startButton.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -89,22 +112,29 @@ final class RegistrationViewController: UIViewController {
         settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func configureStackView() {
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = 32
-        stackView.addArrangedSubview(profileImageView)
-        stackView.addArrangedSubview(helloLabel)
-        stackView.addArrangedSubview(greetingLabel)
-        stackView.addArrangedSubview(nameTextField)
-        stackView.addArrangedSubview(startButton)
-        stackView.addArrangedSubview(settingsHintLabel)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
+    private func configureMainStackView() {
+        mainStackView.axis = .vertical
+        mainStackView.alignment = .center
+        mainStackView.distribution = .fill
+        mainStackView.spacing = 32
+        mainStackView.addArrangedSubview(profileImageView)
+        mainStackView.addArrangedSubview(helloStackView)
+        mainStackView.addArrangedSubview(nameTextField)
+        mainStackView.addArrangedSubview(startButton)
+        mainStackView.addArrangedSubview(settingsHintLabel)
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(mainStackView)
     }
     
+    private func configureHelloStackView() {
+        helloStackView.axis = .vertical
+        helloStackView.alignment = .center
+        helloStackView.distribution = .fill
+        helloStackView.spacing = 8
+        helloStackView.addArrangedSubview(helloLabel)
+        helloStackView.addArrangedSubview(greetingLabel)
+        helloStackView.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     @objc func startButtonTapped() {
         print("Кнопка нажата")
