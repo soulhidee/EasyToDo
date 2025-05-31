@@ -35,6 +35,8 @@ final class RegistrationViewController: UIViewController {
         helloLabel.font = .systemFont(ofSize: 28, weight: .bold)
         helloLabel.textColor = UIColor(named: "YPTextGray")
         helloLabel.numberOfLines = .zero
+        helloLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(helloLabel)
     }
     
     private func configureGreetingLabel() {
@@ -42,9 +44,38 @@ final class RegistrationViewController: UIViewController {
         greetingLabel.font = .systemFont(ofSize: 17, weight: .regular)
         greetingLabel.textColor = UIColor(named: "YPTextGray")
         greetingLabel.numberOfLines = .zero
+        greetingLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(greetingLabel)
     }
     
-
+    private func configureNameTextField() {
+        nameTextField.attributedPlaceholder = NSAttributedString(
+            string: "Введите ваше имя",
+            attributes: [
+                .foregroundColor: UIColor(named: "YPPlaceholder") ?? .green,
+                .font: UIFont.systemFont(ofSize: 14)
+            ])
+        nameTextField.textAlignment = .left
+        nameTextField.layer.borderColor = UIColor(named: "YPGreen")?.cgColor ?? UIColor.green.cgColor
+        nameTextField.layer.borderWidth = 1
+        nameTextField.layer.cornerRadius = 10
+        nameTextField.layer.masksToBounds = true
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(nameTextField)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
