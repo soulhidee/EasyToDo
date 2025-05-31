@@ -35,17 +35,16 @@ final class RegistrationViewController: UIViewController {
     // MARK: - Setup Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 172),
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -179),
+            mainStackView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 31),
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -31),
             
             profileImageView.widthAnchor.constraint(equalTo: profileImageView.heightAnchor),
+            
             
             nameTextField.heightAnchor.constraint(equalToConstant: 44),
             nameTextField.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             
-            helloStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
             startButton.heightAnchor.constraint(equalToConstant: 55),
             startButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 92),
             startButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: -92)
@@ -63,6 +62,7 @@ final class RegistrationViewController: UIViewController {
         helloLabel.font = .systemFont(ofSize: 28, weight: .bold)
         helloLabel.textColor = UIColor(named: "YPTextGray")
         helloLabel.numberOfLines = .zero
+        helloLabel.textAlignment = .center
         helloLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -110,8 +110,9 @@ final class RegistrationViewController: UIViewController {
     
     private func configureSettingsHintLabel() {
         settingsHintLabel.text = "Позже можно изменить в разделе Настройки."
-        settingsHintLabel.font = .systemFont(ofSize: 13, weight: .medium)
-        settingsHintLabel.textColor = UIColor(named: "YPTextGray")
+        settingsHintLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        settingsHintLabel.textColor = UIColor(named: "YPGray")
+        settingsHintLabel.textAlignment = .center
         settingsHintLabel.numberOfLines = .zero
         settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -132,7 +133,7 @@ final class RegistrationViewController: UIViewController {
     
     private func configureHelloStackView() {
         helloStackView.axis = .vertical
-        helloStackView.alignment = .center
+        helloStackView.alignment = .fill
         helloStackView.distribution = .fill
         helloStackView.spacing = 8
         helloStackView.addArrangedSubview(helloLabel)
