@@ -1,6 +1,8 @@
 import UIKit
 
 final class RegistrationViewController: UIViewController {
+    
+    // MARK: - UI Elements
     private let profileImageView = UIImageView()
     private let helloLabel = UILabel()
     private let greetingLabel = UILabel()
@@ -10,6 +12,7 @@ final class RegistrationViewController: UIViewController {
     private let mainStackView = UIStackView()
     private let helloStackView = UIStackView()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -17,6 +20,7 @@ final class RegistrationViewController: UIViewController {
         view.applyGradient(from: "YPGradientStart", to: "YPGradientEnd")
     }
     
+    // MARK: - Setup Views
     private func setupViews() {
         configureMainStackView()
         configureHelloStackView()
@@ -28,7 +32,7 @@ final class RegistrationViewController: UIViewController {
         configureSettingsHintLabel()
     }
     
-    
+    // MARK: - Setup Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 172),
@@ -45,10 +49,10 @@ final class RegistrationViewController: UIViewController {
             startButton.heightAnchor.constraint(equalToConstant: 55),
             startButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 92),
             startButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: -92)
-            
         ])
     }
     
+    // MARK: - Configure UI Elements
     private func configureProfileImageView() {
         profileImageView.image = UIImage(named: "ProfileImage")
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +85,7 @@ final class RegistrationViewController: UIViewController {
         nameTextField.layer.borderColor = UIColor(named: "YPGreen")?.cgColor ?? UIColor.green.cgColor
         nameTextField.layer.borderWidth = 1
         nameTextField.layer.cornerRadius = 10
-       
+        
         let paddingViewLeft = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
         nameTextField.leftView = paddingViewLeft
         nameTextField.leftViewMode = .always
@@ -89,7 +93,7 @@ final class RegistrationViewController: UIViewController {
         let paddingViewRight = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
         nameTextField.rightView = paddingViewRight
         nameTextField.rightViewMode = .always
-       
+        
         nameTextField.layer.masksToBounds = true
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -136,22 +140,13 @@ final class RegistrationViewController: UIViewController {
         helloStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    // MARK: - Actions
     @objc func startButtonTapped() {
         print("Кнопка нажата")
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
-
-
+// MARK: - UIView Extension
 extension UIView {
     func applyGradient(from startColorName: String, to endColorName: String) {
         guard
