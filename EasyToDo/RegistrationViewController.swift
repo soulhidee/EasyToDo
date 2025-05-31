@@ -7,6 +7,7 @@ final class RegistrationViewController: UIViewController {
     private let nameTextField = UITextField()
     private let startButton = UIButton()
     private let settingsHintLabel = UILabel()
+    private let stackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +17,7 @@ final class RegistrationViewController: UIViewController {
     }
     
     private func setupViews() {
+        configureStackView()
         configureProfileImageView()
         configureHelloLabel()
         configureGreetingLabel()
@@ -26,13 +28,17 @@ final class RegistrationViewController: UIViewController {
     
     
     private func setupConstraints() {
-
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 172),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 16),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -179)
+        ])
     }
     
     private func configureProfileImageView() {
         profileImageView.image = UIImage(named: "ProfileImage")
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(profileImageView)
     }
     
     private func configureHelloLabel() {
@@ -41,7 +47,6 @@ final class RegistrationViewController: UIViewController {
         helloLabel.textColor = UIColor(named: "YPTextGray")
         helloLabel.numberOfLines = .zero
         helloLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(helloLabel)
     }
     
     private func configureGreetingLabel() {
@@ -50,7 +55,6 @@ final class RegistrationViewController: UIViewController {
         greetingLabel.textColor = UIColor(named: "YPTextGray")
         greetingLabel.numberOfLines = .zero
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(greetingLabel)
     }
     
     private func configureNameTextField() {
@@ -66,7 +70,6 @@ final class RegistrationViewController: UIViewController {
         nameTextField.layer.cornerRadius = 10
         nameTextField.layer.masksToBounds = true
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(nameTextField)
     }
     
     private func configureStartButton() {
@@ -76,7 +79,6 @@ final class RegistrationViewController: UIViewController {
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
         startButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(startButton)
     }
     
     private func configureSettingsHintLabel() {
@@ -85,9 +87,23 @@ final class RegistrationViewController: UIViewController {
         settingsHintLabel.textColor = UIColor(named: "YPTextGray")
         settingsHintLabel.numberOfLines = .zero
         settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(settingsHintLabel)
     }
     
+    private func configureStackView() {
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 32
+        stackView.addArrangedSubview(profileImageView)
+        stackView.addArrangedSubview(helloLabel)
+        stackView.addArrangedSubview(greetingLabel)
+        stackView.addArrangedSubview(nameTextField)
+        stackView.addArrangedSubview(startButton)
+        stackView.addArrangedSubview(settingsHintLabel)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+    }
     
     
     @objc func startButtonTapped() {
