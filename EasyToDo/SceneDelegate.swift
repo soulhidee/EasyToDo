@@ -7,11 +7,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = RegistrationViewController()
-        self.window = window
-        window.makeKeyAndVisible()
+                
+                // Создаем окно
+                let window = UIWindow(windowScene: windowScene)
+                
+                // Указываем начальный контроллер (замените на ваш)
+                let viewController = RegistrationViewController() // Ваш экран регистрации
+                window.rootViewController = viewController
+                
+                // Устанавливаем окно как активное
+                self.window = window
+                window.makeKeyAndVisible()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
