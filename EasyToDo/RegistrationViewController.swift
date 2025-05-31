@@ -1,6 +1,6 @@
 import UIKit
 
-final class RegistrationViewController: UIViewController {
+final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - UI Elements
     private let profileImageView = UIImageView()
@@ -17,6 +17,11 @@ final class RegistrationViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        nameTextField.delegate = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         view.applyGradient(from: "YPGradientStart", to: "YPGradientEnd")
     }
     
@@ -145,9 +150,27 @@ final class RegistrationViewController: UIViewController {
     @objc func startButtonTapped() {
         print("Кнопка нажата")
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.letters.union(.whitespaces)
+        let characterSet = CharacterSet(charactersIn: string)
+        guard allowedCharacters.isSuperset(of: characterSet) else {
+            return false
+        }
+        
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else {
+            return false
+        }
+        
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= 20
+    }
+    
+    
 }
 
-// MARK: - UIView Extension
+// MARK: - Extension
 extension UIView {
     func applyGradient(from startColorName: String, to endColorName: String) {
         guard
@@ -171,3 +194,4 @@ extension UIView {
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
+
