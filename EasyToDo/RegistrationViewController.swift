@@ -17,6 +17,11 @@ final class RegistrationViewController: UIViewController {
     
     private func setupViews() {
         configureProfileImageView()
+        configureHelloLabel()
+        configureGreetingLabel()
+        configureNameTextField()
+        configureStartButton()
+        configureSettingsHintLabel()
     }
     
     
@@ -70,9 +75,17 @@ final class RegistrationViewController: UIViewController {
         startButton.backgroundColor = UIColor(named: "YPGreen") ?? .green
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-
         startButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(startButton)
+    }
+    
+    private func configureSettingsHintLabel() {
+        settingsHintLabel.text = "Позже можно изменить в разделе Настройки."
+        settingsHintLabel.font = .systemFont(ofSize: 13, weight: .medium)
+        settingsHintLabel.textColor = UIColor(named: "YPTextGray")
+        settingsHintLabel.numberOfLines = .zero
+        settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(settingsHintLabel)
     }
     
     
