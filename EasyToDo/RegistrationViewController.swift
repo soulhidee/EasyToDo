@@ -67,8 +67,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Configure UI Elements
     private func configureProfileImageView() {
-        let tapGasture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        profileImageView.addGestureRecognizer(tapGasture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileImageView.addGestureRecognizer(tapGesture)
         profileImageView.image = UIImage(named: "ProfileImage")
         profileImageView.layer.cornerRadius = Constants.profileImagecornerRadius
         profileImageView.contentMode = .scaleAspectFill
