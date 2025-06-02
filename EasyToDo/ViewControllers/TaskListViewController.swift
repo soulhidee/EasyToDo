@@ -6,6 +6,8 @@ class TaskListViewController: UIViewController {
     private let helloLabel = UILabel()
     private let userNameLabel = UILabel()
     private let settingsButton = UIButton()
+    private let headerTextStackView = UIStackView()
+    private let headerStackView = UIStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +26,19 @@ class TaskListViewController: UIViewController {
 
     private func setupViews() {
         configureHelloLabel()
+        configureUserNameLabel()
+        configureSettingsButton()
+        configureHeaderTextStackView()
+        configureHeaderStackView()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+
+            
+            headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
+            headerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.mainStackViewLeading),
+            headerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Constants.mainStackViewTrailing),
         ])
     }
 
@@ -56,7 +67,41 @@ class TaskListViewController: UIViewController {
         settingsButton.applyCustomShadow()
         }
 
+    private func configureHeaderTextStackView() {
+        headerTextStackView.axis = .vertical
+        headerTextStackView.alignment = .fill
+        headerTextStackView.distribution = .fill
+        headerTextStackView.spacing = .zero
+        headerTextStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        headerTextStackView.addArrangedSubview(helloLabel)
+        headerTextStackView.addArrangedSubview(userNameLabel)
+    }
+    
+    private func configureHeaderStackView() {
+        headerStackView.axis = .horizontal
+        headerStackView.alignment = .fill
+        headerStackView.distribution = .fill
+        headerStackView.spacing = 19
+        headerStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        headerStackView.addArrangedSubview(profileImageView)
+        headerStackView.addArrangedSubview(headerTextStackView)
+        headerStackView.addArrangedSubview(settingsButton)
+        
+        view.addSubview(headerStackView)
+    }
+    
+    
+    
+    
+    
     @objc private func settingsButtonTapped() {
         print("Нажал")
     }
+    
+    
+    
+    
 }
+
