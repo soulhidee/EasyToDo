@@ -1,7 +1,7 @@
 import UIKit
 
 class TaskListViewController: UIViewController {
-    
+    //MARK: - Header UI Elements
     private let profileImageView = ProfileImage.makeImageView()
     private let helloLabel = UILabel()
     private let userNameLabel = UILabel()
@@ -9,6 +9,11 @@ class TaskListViewController: UIViewController {
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
     
+    //MARK: - TabBar UI Elements
+    private let tabBarStackView = UIStackView()
+    private let allTaskButton = UIButton()
+    private let activeTaskButton = UIButton()
+    private let completedTaskButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
