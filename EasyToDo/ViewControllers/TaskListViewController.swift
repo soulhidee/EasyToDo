@@ -9,11 +9,7 @@ class TaskListViewController: UIViewController {
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
     
-    //MARK: - TabBar UI Elements
-    private let tabBarStackView = UIStackView()
-    private let allTaskButton = UIButton()
-    private let activeTaskButton = UIButton()
-    private let completedTaskButton = UIButton()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +33,8 @@ class TaskListViewController: UIViewController {
         configureSettingsButton()
         configureHeaderTextStackView()
         configureHeaderStackView()
+        setButton()
+        configureTabBarStackView()
         
     }
     
@@ -52,7 +50,7 @@ class TaskListViewController: UIViewController {
             headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
             headerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             headerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            headerStackView.heightAnchor.constraint(equalToConstant: 60)
+            headerStackView.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
     
@@ -114,9 +112,6 @@ class TaskListViewController: UIViewController {
     }
     
  
-    
-    
-    
     
     
     @objc private func settingsButtonTapped() {

@@ -27,6 +27,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        // Удаляем старый, если есть, чтобы не накапливать слои
         view.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
         
         let gradient = GradientHelper.makeGradientLayer(frame: view.bounds)
