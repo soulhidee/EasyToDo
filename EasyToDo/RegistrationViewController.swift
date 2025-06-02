@@ -75,6 +75,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         profileImageView.clipsToBounds = true
         profileImageView.isUserInteractionEnabled = true
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     private func configureHelloLabel() {
@@ -129,6 +130,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         startButton.layer.cornerRadius = Constants.buttonCornerRadius
         startButton.translatesAutoresizingMaskIntoConstraints = false
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        
+        startButton.applyCustomShadow()
     }
     
     private func configureSettingsHintLabel() {
@@ -205,6 +208,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         UIView(frame: CGRect(x: 0, y: 0, width: Constants.textFieldInsetWidth, height: Constants.textFieldHeight))
     }
     
+    
     // MARK: - Actions
     @objc private func dismissKeyboard() {
         view.endEditing(true)
@@ -255,4 +259,12 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
 }
 
 
-
+extension UIView {
+    func applyCustomShadow() {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowRadius = 8
+        layer.masksToBounds = false
+    }
+}
