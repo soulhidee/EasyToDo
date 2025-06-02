@@ -110,11 +110,11 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         nameTextField.layer.cornerRadius = 10
         nameTextField.layer.masksToBounds = true
         
-        let paddingViewLeft = UIView(frame: CGRect(x: 0, y: 0, width: Constants.textFieldInsetWidth, height: Constants.textFieldHeight))
+        let paddingViewLeft = makeTextFieldPaddingView()
         nameTextField.leftView = paddingViewLeft
         nameTextField.leftViewMode = .always
         
-        let paddingViewRight = UIView(frame: CGRect(x: 0, y: 0, width: Constants.textFieldInsetWidth, height: Constants.textFieldHeight))
+        let paddingViewRight = makeTextFieldPaddingView()
         nameTextField.rightView = paddingViewRight
         nameTextField.rightViewMode = .always
         
@@ -199,6 +199,10 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    private func makeTextFieldPaddingView() -> UIView {
+        UIView(frame: CGRect(x: 0, y: 0, width: Constants.textFieldInsetWidth, height: Constants.textFieldHeight))
     }
     
     // MARK: - Actions
