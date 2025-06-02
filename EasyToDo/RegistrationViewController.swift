@@ -12,6 +12,9 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     private let mainStackView = UIStackView()
     private let helloStackView = UIStackView()
     
+    //MARK: - pivate property
+    var profileImagePicker = ProfileImagePicker()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +69,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         profileImageView.addGestureRecognizer(tapGasture)
         profileImageView.image = UIImage(named: "ProfileImage")
         profileImageView.layer.cornerRadius = 75
+        profileImageView.contentMode = .scaleAspectFill
         profileImageView.clipsToBounds = true
         profileImageView.isUserInteractionEnabled = true
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -178,7 +182,9 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func imageTapped() {
-        
+        profileImagePicker.showImagePicker(in: self) { image in
+            self.profileImageView.image = image
+        }
     }
     
     // MARK: - Delegate
