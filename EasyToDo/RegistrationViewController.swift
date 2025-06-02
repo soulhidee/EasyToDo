@@ -48,7 +48,6 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
             
             profileImageView.widthAnchor.constraint(equalTo: profileImageView.heightAnchor),
             
-            
             nameTextField.heightAnchor.constraint(equalToConstant: 44),
             nameTextField.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             
@@ -87,65 +86,70 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
             attributes: [
                 .foregroundColor: UIColor(named: "YPPlaceholder") ?? .green,
                 .font: UIFont.systemFont(ofSize: 14)
-            ])
+            ]
+        )
         nameTextField.textAlignment = .left
+
         nameTextField.layer.borderColor = UIColor(named: "YPGreen")?.cgColor ?? UIColor.green.cgColor
         nameTextField.layer.borderWidth = 1
         nameTextField.layer.cornerRadius = 10
-        
+        nameTextField.layer.masksToBounds = true
+
         let paddingViewLeft = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
         nameTextField.leftView = paddingViewLeft
         nameTextField.leftViewMode = .always
-        
+
         let paddingViewRight = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
         nameTextField.rightView = paddingViewRight
         nameTextField.rightViewMode = .always
-        
-        nameTextField.layer.masksToBounds = true
+
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureStartButton() {
         startButton.setTitle("Начать", for: .normal)
+        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         startButton.setTitleColor(.white, for: .normal)
         startButton.backgroundColor = UIColor(named: "YPGreen") ?? .green
-        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
         startButton.layer.cornerRadius = 16
         startButton.translatesAutoresizingMaskIntoConstraints = false
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
-    
+
     private func configureSettingsHintLabel() {
         settingsHintLabel.text = "Позже можно изменить в разделе Настройки."
         settingsHintLabel.font = .systemFont(ofSize: 16, weight: .regular)
         settingsHintLabel.textColor = UIColor(named: "YPGray")
         settingsHintLabel.textAlignment = .center
-        settingsHintLabel.numberOfLines = .zero
+        settingsHintLabel.numberOfLines = 0
         settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
     }
-    
+
     private func configureMainStackView() {
         mainStackView.axis = .vertical
         mainStackView.alignment = .center
         mainStackView.distribution = .fill
         mainStackView.spacing = 32
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         mainStackView.addArrangedSubview(profileImageView)
         mainStackView.addArrangedSubview(helloStackView)
         mainStackView.addArrangedSubview(nameTextField)
         mainStackView.addArrangedSubview(startButton)
         mainStackView.addArrangedSubview(settingsHintLabel)
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(mainStackView)
     }
-    
+
     private func configureHelloStackView() {
         helloStackView.axis = .vertical
         helloStackView.alignment = .fill
         helloStackView.distribution = .fill
         helloStackView.spacing = 8
+        helloStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         helloStackView.addArrangedSubview(helloLabel)
         helloStackView.addArrangedSubview(greetingLabel)
-        helloStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureNameTextFieldActions() {
