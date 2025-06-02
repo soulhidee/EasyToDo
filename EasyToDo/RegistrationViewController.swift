@@ -24,6 +24,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         setupConstraints()
         configureNameTextFieldActions()
         nameTextField.delegate = self
+        setupDismissKeyboardGesture()
         
     }
     
@@ -192,7 +193,17 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         startButton.alpha = startButton.isEnabled ? 1 : 0.5
     }
     
+    private func setupDismissKeyboardGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
     // MARK: - Actions
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @objc private func startButtonTapped() {
         print("Нажал")
     }
