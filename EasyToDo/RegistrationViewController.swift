@@ -42,6 +42,9 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Setup Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            profileImageView.widthAnchor.constraint(equalToConstant: 150),
+            profileImageView.heightAnchor.constraint(equalToConstant: 150),
+            
             mainStackView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 31),
             mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -31),
@@ -59,7 +62,12 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Configure UI Elements
     private func configureProfileImageView() {
+        let tapGasture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileImageView.addGestureRecognizer(tapGasture)
         profileImageView.image = UIImage(named: "ProfileImage")
+        profileImageView.layer.cornerRadius = 75
+        profileImageView.clipsToBounds = true
+        profileImageView.isUserInteractionEnabled = true
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -167,6 +175,10 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Actions
     @objc private func startButtonTapped() {
         print("Нажал")
+    }
+    
+    @objc private func imageTapped() {
+        
     }
     
     // MARK: - Delegate
