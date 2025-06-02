@@ -12,7 +12,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     private let mainStackView = UIStackView()
     private let helloStackView = UIStackView()
     
-    //MARK: - pivate property
+    //MARK: - Private Property
     private var profileImagePicker = ProfileImagePicker()
     private let gradientLayer = CAGradientLayer()
     
@@ -25,7 +25,6 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         configureNameTextFieldActions()
         nameTextField.delegate = self
         setupDismissKeyboardGesture()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -199,6 +198,11 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tapGesture)
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     // MARK: - Actions
     @objc private func dismissKeyboard() {
         view.endEditing(true)
@@ -230,7 +234,6 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         return updatedText.count <= 20
     }
-    
     
 }
 
