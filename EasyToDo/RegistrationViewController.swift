@@ -13,11 +13,13 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     private let helloStackView = UIStackView()
     
     //MARK: - pivate property
-    var profileImagePicker = ProfileImagePicker()
+    private var profileImagePicker = ProfileImagePicker()
+    private let gradientLayer = CAGradientLayer()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupGradientLayer()
         setupViews()
         setupConstraints()
         configureNameTextFieldActions()
@@ -27,7 +29,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        view.applyGradient(from: "YPGradientStart", to: "YPGradientEnd")
+        gradientLayer.frame = view.bounds
     }
     
     // MARK: - Setup Views
@@ -101,20 +103,21 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
             ]
         )
         nameTextField.textAlignment = .left
-
+        
         nameTextField.layer.borderColor = UIColor(named: "YPGreen")?.cgColor ?? UIColor.green.cgColor
+        nameTextField.textColor = UIColor(named: "YPTextGray")
         nameTextField.layer.borderWidth = 1
         nameTextField.layer.cornerRadius = 10
         nameTextField.layer.masksToBounds = true
-
+        
         let paddingViewLeft = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
         nameTextField.leftView = paddingViewLeft
         nameTextField.leftViewMode = .always
-
+        
         let paddingViewRight = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
         nameTextField.rightView = paddingViewRight
         nameTextField.rightViewMode = .always
-
+        
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -127,7 +130,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         startButton.translatesAutoresizingMaskIntoConstraints = false
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
-
+    
     private func configureSettingsHintLabel() {
         settingsHintLabel.text = "Позже можно изменить в разделе Настройки."
         settingsHintLabel.font = .systemFont(ofSize: 16, weight: .regular)
@@ -136,7 +139,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         settingsHintLabel.numberOfLines = 0
         settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
     private func configureMainStackView() {
         mainStackView.axis = .vertical
         mainStackView.alignment = .center
@@ -152,7 +155,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         
         view.addSubview(mainStackView)
     }
-
+    
     private func configureHelloStackView() {
         helloStackView.axis = .vertical
         helloStackView.alignment = .fill
@@ -162,6 +165,19 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         
         helloStackView.addArrangedSubview(helloLabel)
         helloStackView.addArrangedSubview(greetingLabel)
+    }
+    
+    private func setupGradientLayer() {
+        guard
+            let startColor = UIColor(named: "YPGradientStart")?.cgColor,
+            let endColor = UIColor(named: "YPGradientEnd")?.cgColor
+        else { return }
+        
+        gradientLayer.colors = [startColor, endColor]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        
+        view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     private func configureNameTextFieldActions() {
@@ -207,28 +223,5 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
 }
 
-// MARK: - Extension
-extension UIView {
-    func applyGradient(from startColorName: String, to endColorName: String) {
-        guard
-            let startColor = UIColor(named: startColorName)?.cgColor,
-            let endColor = UIColor(named: endColorName)?.cgColor
-        else {
-            print("❌ Ошибка: цвета не найдены в ассетах")
-            return
-        }
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.bounds
-        gradientLayer.colors = [startColor, endColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        
-        self.layer.sublayers?
-            .filter { $0 is CAGradientLayer }
-            .forEach { $0.removeFromSuperlayer() }
-        
-        self.layer.insertSublayer(gradientLayer, at: 0)
-    }
-}
+
 
