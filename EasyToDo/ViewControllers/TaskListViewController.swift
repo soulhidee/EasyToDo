@@ -1,47 +1,60 @@
 import UIKit
 
 class TaskListViewController: UIViewController {
-
+    
     private let profileImageView = ProfileImage.makeImageView()
     private let helloLabel = UILabel()
     private let userNameLabel = UILabel()
     private let settingsButton = UIButton()
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
+        
         view.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
-
+        
         let gradient = GradientHelper.makeGradientLayer(frame: view.bounds)
         view.layer.insertSublayer(gradient, at: 0)
     }
-
+    
     private func setupViews() {
+        configureProfileImageView()
         configureHelloLabel()
         configureUserNameLabel()
         configureSettingsButton()
         configureHeaderTextStackView()
         configureHeaderStackView()
+        
     }
-
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-
+            profileImageView.widthAnchor.constraint(equalToConstant: 60),
+            profileImageView.heightAnchor.constraint(equalToConstant: 60),
+            
+                    
+            settingsButton.widthAnchor.constraint(equalToConstant: 44),
+            settingsButton.heightAnchor.constraint(equalToConstant: 44),
             
             headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
-            headerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.mainStackViewLeading),
-            headerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Constants.mainStackViewTrailing),
+            headerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            headerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            headerStackView.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
-
+    
+    private func configureProfileImageView() {
+        profileImageView.layer.cornerRadius = 30
+    }
+    
     private func configureHelloLabel() {
         helloLabel.text = "Привет,"
         helloLabel.font = .systemFont(ofSize: 17, weight: .regular)
@@ -51,11 +64,11 @@ class TaskListViewController: UIViewController {
     }
     
     private func configureUserNameLabel() {
-        helloLabel.text = "Daniil Isakov"
-        helloLabel.font = .systemFont(ofSize: 22, weight: .bold)
-        helloLabel.textColor = UIColor(named: "YPBlack")
-        helloLabel.numberOfLines = 0
-        helloLabel.textAlignment = .left
+        userNameLabel.text = "Daniil Isakov"
+        userNameLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        userNameLabel.textColor = UIColor(named: "YPBlack")
+        userNameLabel.numberOfLines = 0
+        userNameLabel.textAlignment = .left
     }
     
     private func configureSettingsButton() {
@@ -63,34 +76,39 @@ class TaskListViewController: UIViewController {
         settingsButton.setImage(UIImage(named: "Settings"), for: .normal)
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-            
+        
         settingsButton.applyCustomShadow()
-        }
-
+    }
+    
     private func configureHeaderTextStackView() {
         headerTextStackView.axis = .vertical
         headerTextStackView.alignment = .fill
         headerTextStackView.distribution = .fill
         headerTextStackView.spacing = .zero
         headerTextStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         headerTextStackView.addArrangedSubview(helloLabel)
         headerTextStackView.addArrangedSubview(userNameLabel)
     }
     
     private func configureHeaderStackView() {
-        headerStackView.axis = .horizontal
-        headerStackView.alignment = .fill
-        headerStackView.distribution = .fill
-        headerStackView.spacing = 19
-        headerStackView.translatesAutoresizingMaskIntoConstraints = false
+        let spacer = UIView()
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        spacer.widthAnchor.constraint(equalToConstant: 19).isActive = true
         
+        headerStackView.axis = .horizontal
+        headerStackView.alignment = .center
+        headerStackView.distribution = .fill
+        headerStackView.spacing = .zero
+        headerStackView.translatesAutoresizingMaskIntoConstraints = false
         headerStackView.addArrangedSubview(profileImageView)
+        headerStackView.addArrangedSubview(spacer)
         headerStackView.addArrangedSubview(headerTextStackView)
         headerStackView.addArrangedSubview(settingsButton)
         
         view.addSubview(headerStackView)
     }
+    
+ 
     
     
     
