@@ -47,21 +47,21 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Setup Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            profileImageView.widthAnchor.constraint(equalToConstant: 150),
-            profileImageView.heightAnchor.constraint(equalToConstant: 150),
+            profileImageView.widthAnchor.constraint(equalToConstant: Constants.profileImageSize),
+            profileImageView.heightAnchor.constraint(equalToConstant: Constants.profileImageSize),
             
             mainStackView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 31),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -31),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.mainStackViewLeading),
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Constants.mainStackViewTrailing),
             
             profileImageView.widthAnchor.constraint(equalTo: profileImageView.heightAnchor),
             
-            nameTextField.heightAnchor.constraint(equalToConstant: 44),
+            nameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
             nameTextField.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             
-            startButton.heightAnchor.constraint(equalToConstant: 55),
-            startButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 92),
-            startButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: -92)
+            startButton.heightAnchor.constraint(equalToConstant: Constants.buttonHeight),
+            startButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: Constants.startButtonLeading),
+            startButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: Constants.startButtonTrailing)
         ])
     }
     
@@ -70,7 +70,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         let tapGasture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         profileImageView.addGestureRecognizer(tapGasture)
         profileImageView.image = UIImage(named: "ProfileImage")
-        profileImageView.layer.cornerRadius = 75
+        profileImageView.layer.cornerRadius = Constants.profileImagecornerRadius
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.clipsToBounds = true
         profileImageView.isUserInteractionEnabled = true
@@ -110,11 +110,11 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         nameTextField.layer.cornerRadius = 10
         nameTextField.layer.masksToBounds = true
         
-        let paddingViewLeft = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
+        let paddingViewLeft = UIView(frame: CGRect(x: 0, y: 0, width: Constants.textFieldInsetWidth, height: Constants.textFieldHeight))
         nameTextField.leftView = paddingViewLeft
         nameTextField.leftViewMode = .always
         
-        let paddingViewRight = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 44))
+        let paddingViewRight = UIView(frame: CGRect(x: 0, y: 0, width: Constants.textFieldInsetWidth, height: Constants.textFieldHeight))
         nameTextField.rightView = paddingViewRight
         nameTextField.rightViewMode = .always
         
@@ -126,7 +126,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         startButton.setTitleColor(.white, for: .normal)
         startButton.backgroundColor = UIColor(named: "YPGreen") ?? .green
-        startButton.layer.cornerRadius = 16
+        startButton.layer.cornerRadius = Constants.buttonCornerRadius
         startButton.translatesAutoresizingMaskIntoConstraints = false
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
@@ -136,7 +136,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         settingsHintLabel.font = .systemFont(ofSize: 16, weight: .regular)
         settingsHintLabel.textColor = UIColor(named: "YPGray")
         settingsHintLabel.textAlignment = .center
-        settingsHintLabel.numberOfLines = 0
+        settingsHintLabel.numberOfLines = .zero
         settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -144,7 +144,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         mainStackView.axis = .vertical
         mainStackView.alignment = .center
         mainStackView.distribution = .fill
-        mainStackView.spacing = 32
+        mainStackView.spacing = Constants.mainStackSpacing
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         
         mainStackView.addArrangedSubview(profileImageView)
@@ -160,7 +160,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         helloStackView.axis = .vertical
         helloStackView.alignment = .fill
         helloStackView.distribution = .fill
-        helloStackView.spacing = 8
+        helloStackView.spacing = Constants.helloStackSpacing
         helloStackView.translatesAutoresizingMaskIntoConstraints = false
         
         helloStackView.addArrangedSubview(helloLabel)
@@ -168,10 +168,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setupGradientLayer() {
-        guard
-            let startColor = UIColor(named: "YPGradientStart")?.cgColor,
-            let endColor = UIColor(named: "YPGradientEnd")?.cgColor
-        else { return }
+        let startColor = UIColor(named: "YPGradientStart")?.cgColor ?? UIColor.blue.cgColor
+        let endColor = UIColor(named: "YPGradientEnd")?.cgColor ?? UIColor.white.cgColor
         
         gradientLayer.colors = [startColor, endColor]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
@@ -232,9 +230,24 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         }
         
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        return updatedText.count <= 20
+        return updatedText.count <= Constants.maxNameLength
     }
     
+    private enum Constants {
+        static let profileImageSize: CGFloat = 150
+        static let mainStackViewLeading: CGFloat = 31
+        static let mainStackViewTrailing: CGFloat = -31
+        static let startButtonLeading: CGFloat = 92
+        static let startButtonTrailing: CGFloat = -92
+        static let textFieldHeight: CGFloat = 44
+        static let buttonHeight: CGFloat = 55
+        static let profileImagecornerRadius: CGFloat = 75
+        static let textFieldInsetWidth: CGFloat = 14
+        static let mainStackSpacing: CGFloat = 32
+        static let helloStackSpacing: CGFloat = 8
+        static let buttonCornerRadius: CGFloat = 16
+        static let maxNameLength: Int = 20
+    }
 }
 
 
