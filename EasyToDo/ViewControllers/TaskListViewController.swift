@@ -9,12 +9,15 @@ class TaskListViewController: UIViewController {
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
     
-
+    //MARK: - TabBar UI Elements
+    private let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
+    private var segmentedControl = UISegmentedControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -33,9 +36,7 @@ class TaskListViewController: UIViewController {
         configureSettingsButton()
         configureHeaderTextStackView()
         configureHeaderStackView()
-        setButton()
-        configureTabBarStackView()
-        
+        configureSegmentedControl()
     }
     
     private func setupConstraints() {
@@ -43,14 +44,19 @@ class TaskListViewController: UIViewController {
             profileImageView.widthAnchor.constraint(equalToConstant: 60),
             profileImageView.heightAnchor.constraint(equalToConstant: 60),
             
-                    
+            
             settingsButton.widthAnchor.constraint(equalToConstant: 44),
             settingsButton.heightAnchor.constraint(equalToConstant: 44),
             
-            headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
+            headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             headerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             headerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             headerStackView.heightAnchor.constraint(equalToConstant: 60),
+            
+            segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            segmentedControl.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: 32),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
@@ -111,7 +117,38 @@ class TaskListViewController: UIViewController {
         view.addSubview(headerStackView)
     }
     
- 
+    private func configureSegmentedControl() {
+        for (index, item) in segmentItems.enumerated() {
+            segmentedControl.insertSegment(withTitle: item, at: index, animated: false)
+        }
+        
+        segmentedControl.setTitleTextAttributes([
+            .foregroundColor: UIColor(named: "YPGray") ?? .gray,
+            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+        ], for: .normal)
+        
+        segmentedControl.setTitleTextAttributes([
+            .foregroundColor: UIColor(named: "YPBlack") ?? .black,
+            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+        ], for: .selected)
+        
+        let greenBackground = UIImage(color: UIColor(named: "YPGreen") ?? .green)
+        segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
+        segmentedControl.setBackgroundImage(UIImage(), for: .highlighted, barMetrics: .default)
+        segmentedControl.setBackgroundImage(greenBackground, for: .selected, barMetrics: .default)
+        
+        segmentedControl.layer.borderColor = UIColor(named: "YPGreen")?.cgColor
+        segmentedControl.layer.borderWidth = 1
+        segmentedControl.layer.cornerRadius = 10
+        segmentedControl.clipsToBounds = true
+        
+        segmentedControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        
+        segmentedControl.selectedSegmentIndex = 1
+        
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(segmentedControl)
+    }
     
     
     @objc private func settingsButtonTapped() {
@@ -122,4 +159,3 @@ class TaskListViewController: UIViewController {
     
     
 }
-
