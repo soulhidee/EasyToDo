@@ -3,7 +3,7 @@ import UIKit
 final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - UI Elements
-    private let profileImageView = UIImageView()
+    private let profileImageView = ProfileImage.makeImageView()
     private let helloLabel = UILabel()
     private let greetingLabel = UILabel()
     private let nameTextField = UITextField()
@@ -14,23 +14,25 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Private Property
     private var profileImagePicker = ProfileImagePicker()
-    private let gradientLayer = CAGradientLayer()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupGradientLayer()
         setupViews()
         setupConstraints()
         configureNameTextFieldActions()
         nameTextField.delegate = self
         setupDismissKeyboardGesture()
     }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        gradientLayer.frame = view.bounds
+        
+        view.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
+        
+        let gradient = GradientHelper.makeGradientLayer(frame: view.bounds)
+        view.layer.insertSublayer(gradient, at: 0)
     }
+
     
     // MARK: - Setup Views
     private func setupViews() {
@@ -69,13 +71,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     private func configureProfileImageView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         profileImageView.addGestureRecognizer(tapGesture)
-        profileImageView.image = UIImage(named: "ProfileImage")
-        profileImageView.layer.cornerRadius = Constants.profileImagecornerRadius
-        profileImageView.contentMode = .scaleAspectFill
-        profileImageView.clipsToBounds = true
         profileImageView.isUserInteractionEnabled = true
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        
     }
     
     private func configureHelloLabel() {
@@ -170,17 +166,6 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         helloStackView.addArrangedSubview(greetingLabel)
     }
     
-    private func setupGradientLayer() {
-        let startColor = UIColor(named: "YPGradientStart")?.cgColor ?? UIColor.blue.cgColor
-        let endColor = UIColor(named: "YPGradientEnd")?.cgColor ?? UIColor.white.cgColor
-        
-        gradientLayer.colors = [startColor, endColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        
-        view.layer.insertSublayer(gradientLayer, at: 0)
-    }
-    
     private func configureNameTextFieldActions() {
         nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         startButton.alpha = 0.5
@@ -242,15 +227,4 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-}
-
-
-extension UIView {
-    func applyCustomShadow() {
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.3
-        layer.shadowOffset = CGSize(width: 0, height: 4)
-        layer.shadowRadius = 8
-        layer.masksToBounds = false
-    }
 }
