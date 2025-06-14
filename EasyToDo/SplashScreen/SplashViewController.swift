@@ -11,7 +11,6 @@ final class SplashViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
-        print("Опа опа сплэш скрин")
         super.viewDidLoad()
         view.addSubview(launchImageView)
         setupConstraints()
@@ -54,4 +53,5 @@ final class SplashViewController: UIViewController {
             registrationVC.modalPresentationStyle = .fullScreen
             self.present(registrationVC, animated: true)
         }
+    
 }

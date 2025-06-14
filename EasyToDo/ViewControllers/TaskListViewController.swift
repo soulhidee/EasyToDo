@@ -29,7 +29,7 @@ class TaskListViewController: UIViewController {
         
         // Texts
         static let helloText = "Привет,"
-        static let userNameText = "Daniil Isakov"
+        static let userNameText = "Имя можно задать в настройках"
         static let alertTitle = "Новая задача"
         static let alertMessage = "Пожалуйста добавьте задачу"
         static let alertSaveTitle = "Сохранить"
@@ -55,6 +55,9 @@ class TaskListViewController: UIViewController {
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
     
+    
+    var userName: String = TaskListConstants.userNameText
+    let profileImage = UserDataManager.shared.loadProfileImage()
     //MARK: - Table UI Elements
     lazy var tableView = {
         let table = UITableView()
@@ -129,6 +132,7 @@ class TaskListViewController: UIViewController {
     }
     
     private func configureProfileImageView() {
+        profileImageView.image = profileImage
         profileImageView.layer.cornerRadius = TaskListConstants.profileImageCornerRadius
     }
     
@@ -139,16 +143,17 @@ class TaskListViewController: UIViewController {
         helloLabel.numberOfLines = .zero
         helloLabel.textAlignment = .left
     }
-
+    
     
     private func configureUserNameLabel() {
-        userNameLabel.text = TaskListConstants.userNameText
+        let savedUserName = UserDefaults.standard.string(forKey: "userName") ?? TaskListConstants.userNameText
+        userNameLabel.text = savedUserName
         userNameLabel.font = TaskListConstants.userNameLabelFont
         userNameLabel.textColor = UIColor.ypBlack
         userNameLabel.numberOfLines = .zero
         userNameLabel.textAlignment = .left
     }
-
+    
     
     private func configureSettingsButton() {
         settingsButton.setTitle("", for: .normal)
