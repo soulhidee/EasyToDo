@@ -213,7 +213,6 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         let nav = UINavigationController(rootViewController: mainVC)
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true)
-        
     }
     
     @objc private func imageTapped() {

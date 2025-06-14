@@ -31,8 +31,27 @@ final class SplashViewController: UIViewController {
     }
     
     private func checkAuthorization() {
-    
-    }
-    
-    private func
+            let isAuthorized = UserDataManager.shared.isUserAuthorized()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                if isAuthorized {
+                    self.showMainScreen()
+                } else {
+                    self.showRegistration()
+                }
+            }
+        }
+
+        private func showMainScreen() {
+            let mainVC = TaskListViewController()
+            let nav = UINavigationController(rootViewController: mainVC)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        }
+
+        private func showRegistration() {
+            let registrationVC = RegistrationViewController()
+            registrationVC.modalPresentationStyle = .fullScreen
+            self.present(registrationVC, animated: true)
+        }
 }
