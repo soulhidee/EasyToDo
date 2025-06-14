@@ -65,7 +65,10 @@ final class TaskCell: UITableViewCell {
             checkButton.widthAnchor.constraint(equalToConstant: 28),
             checkButton.heightAnchor.constraint(equalToConstant: 28),
 
-            taskLabel.trailingAnchor.constraint(equalTo: checkButton.leadingAnchor, constant: -12)
+            taskLabel.trailingAnchor.constraint(equalTo: checkButton.leadingAnchor, constant: -12),
+            
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     

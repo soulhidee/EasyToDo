@@ -202,9 +202,9 @@ class TaskListViewController: UIViewController {
     
     //MARK: - TableView
     private func configureTableView() {
-//        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseIdentifier)
         tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -231,15 +231,22 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier, for: indexPath) as? TaskCell else {
+            return UITableViewCell()
+        }
         cell.backgroundColor = .clear
-        cell.textLabel?.text = tasks[indexPath.row]
+        cell.configure(with: tasks[indexPath.row], isChecked: false)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64 // здесь укажи нужную тебе высоту
+        return 64 + 32
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
+        cell.contentView.layer.cornerRadius = 10
+        cell.contentView.layer.masksToBounds = true
     }
     
 }
