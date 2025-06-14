@@ -38,6 +38,8 @@ class TaskListViewController: UIViewController {
         // Segments
         static let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
         static let segmentedSelectedIndex = 1
+        static let segmentedControlBorderWidth: CGFloat = 1
+        static let segmentedControlCornerRadius: CGFloat = 10
         
         // Fonts
         static let helloLabelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -81,7 +83,7 @@ class TaskListViewController: UIViewController {
         view.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
         
         let gradient = GradientHelper.makeGradientLayer(frame: view.bounds)
-        view.layer.insertSublayer(gradient, at: 0)
+        view.layer.insertSublayer(gradient, at: .zero)
     }
     
     private func setupViews() {
@@ -133,8 +135,8 @@ class TaskListViewController: UIViewController {
     private func configureHelloLabel() {
         helloLabel.text = TaskListConstants.helloText
         helloLabel.font = TaskListConstants.helloLabelFont
-        helloLabel.textColor = UIColor(named: "YPTextGray")
-        helloLabel.numberOfLines = 0
+        helloLabel.textColor = UIColor.ypTextGray
+        helloLabel.numberOfLines = .zero
         helloLabel.textAlignment = .left
     }
 
@@ -142,7 +144,7 @@ class TaskListViewController: UIViewController {
     private func configureUserNameLabel() {
         userNameLabel.text = TaskListConstants.userNameText
         userNameLabel.font = TaskListConstants.userNameLabelFont
-        userNameLabel.textColor = UIColor(named: "YPBlack")
+        userNameLabel.textColor = UIColor.ypBlack
         userNameLabel.numberOfLines = 0
         userNameLabel.textAlignment = .left
     }
@@ -150,7 +152,7 @@ class TaskListViewController: UIViewController {
     
     private func configureSettingsButton() {
         settingsButton.setTitle("", for: .normal)
-        settingsButton.setImage(UIImage(named: "Settings"), for: .normal)
+        settingsButton.setImage(UIImage.settings, for: .normal)
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
         
@@ -191,23 +193,23 @@ class TaskListViewController: UIViewController {
         }
         
         segmentedControl.setTitleTextAttributes([
-            .foregroundColor: UIColor(named: "YPGray") ?? .gray,
-            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+            .foregroundColor: UIColor.ypGray,
+            .font: TaskListConstants.segmentedControlFont
         ], for: .normal)
         
         segmentedControl.setTitleTextAttributes([
-            .foregroundColor: UIColor(named: "YPBlack") ?? .black,
-            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+            .foregroundColor: UIColor.ypBlack,
+            .font: TaskListConstants.segmentedControlFont
         ], for: .selected)
         
-        let greenBackground = UIImage(color: UIColor(named: "YPGreen") ?? .green)
+        let greenBackground = UIImage(color: UIColor.ypGreen)
         segmentedControl.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
         segmentedControl.setBackgroundImage(UIImage(), for: .highlighted, barMetrics: .default)
         segmentedControl.setBackgroundImage(greenBackground, for: .selected, barMetrics: .default)
         
-        segmentedControl.layer.borderColor = UIColor(named: "YPGreen")?.cgColor
-        segmentedControl.layer.borderWidth = 1
-        segmentedControl.layer.cornerRadius = 10
+        segmentedControl.layer.borderColor = UIColor.ypGreen.cgColor
+        segmentedControl.layer.borderWidth = TaskListConstants.segmentedControlBorderWidth
+        segmentedControl.layer.cornerRadius = TaskListConstants.segmentedControlCornerRadius
         segmentedControl.clipsToBounds = true
         
         segmentedControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
