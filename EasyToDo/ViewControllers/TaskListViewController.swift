@@ -75,11 +75,12 @@ class TaskListViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 32),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            
+            tableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -16),
             addButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
             addButton.widthAnchor.constraint(equalToConstant: 64),
             addButton.heightAnchor.constraint(equalToConstant: 64)
+            
         ])
     }
     
@@ -178,18 +179,39 @@ class TaskListViewController: UIViewController {
         print("Нажал")
     }
     
+    @objc private func addButtonTapped() {
+        let alert = UIAlertController(title: "Новая задача", message: "Пожалуйста добавьте задачу", preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { action in
+            let textField = alert.textFields?.first
+            if let newTask = textField?.text {
+                self.tasks.insert(newTask, at: 0)
+                self.tableView.reloadData()
+            }
+        }
+        
+        alert.addTextField{ _ in }
+        
+        let cencelAction = UIAlertAction(title: "Закрыть", style: .default) { _ in }
+        
+        alert.addAction(saveAction)
+        alert.addAction(cencelAction)
+        present(alert, animated: true, completion: nil)
+        print("Добавить нажал")
+        
+    }
+    
     //MARK: - TableView
     private func configureTableView() {
-        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
-        
+//        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         view.addSubview(tableView)
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureAddButton() {
         addButton.setTitle("", for: .normal)
         addButton.setImage(UIImage(named: "AddButton"), for: .normal)
-        addButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
         addButton.applyCustomShadow()
         view.addSubview(addButton)
@@ -208,7 +230,9 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = tasks[indexPath.row]
         return cell
     }
     
