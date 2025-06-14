@@ -201,7 +201,6 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func startButtonTapped() {
-        print("Нажал")
     }
     
     @objc private func imageTapped() {

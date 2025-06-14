@@ -19,7 +19,6 @@ final class UserDataManager {
         try? data.write(to: url)
     }
     
-    
     func loadProfileImage() -> UIImage? {
         let url = getDocumentsDirectory().appendingPathComponent(Constants.profileImageFileName)
         guard let data = try? Data(contentsOf: url) else { return nil }
