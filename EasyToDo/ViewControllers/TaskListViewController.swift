@@ -205,6 +205,7 @@ class TaskListViewController: UIViewController {
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseIdentifier)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }

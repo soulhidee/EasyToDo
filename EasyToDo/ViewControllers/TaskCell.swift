@@ -25,9 +25,9 @@ final class TaskCell: UITableViewCell {
             let button = UIButton(type: .custom)
             button.translatesAutoresizingMaskIntoConstraints = false
             // Изначально — пустой чекбокс
-            button.setImage(UIImage(systemName: "square"), for: .normal)
+            button.setImage(UIImage(named: "checkbox_off"), for: .normal)
             // Галочка — при выборе
-            button.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
+            button.setImage(UIImage(named: "checkbox_on"), for: .selected)
             return button
         }()
     
@@ -36,7 +36,6 @@ final class TaskCell: UITableViewCell {
            super.init(style: style, reuseIdentifier: reuseIdentifier)
            setupViews()
            setupConstraints()
-           
            checkButton.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
        }
        
