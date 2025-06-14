@@ -16,9 +16,11 @@ final class TaskCell: UITableViewCell {
     
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "YPWhite") ?? .white
+        view.backgroundColor = UIColor(named: "YPWhite")?.withAlphaComponent(0.3) ?? UIColor.white.withAlphaComponent(0.3)
         view.layer.cornerRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor(named: "YPGreen")?.cgColor
         view.layer.masksToBounds = false
         return view
     }()
