@@ -145,7 +145,7 @@ class TaskListViewController: UIViewController {
         userNameLabel.text = TaskListConstants.userNameText
         userNameLabel.font = TaskListConstants.userNameLabelFont
         userNameLabel.textColor = UIColor.ypBlack
-        userNameLabel.numberOfLines = 0
+        userNameLabel.numberOfLines = .zero
         userNameLabel.textAlignment = .left
     }
 

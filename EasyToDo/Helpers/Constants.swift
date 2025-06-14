@@ -14,4 +14,7 @@ enum Constants {
     static let helloStackSpacing: CGFloat = 8
     static let buttonCornerRadius: CGFloat = 16
     static let maxNameLength: Int = 20
+    
+    static let userNameKey = "userName"
+    static let profileImageFileName = "profileImage.jpg"
 }
