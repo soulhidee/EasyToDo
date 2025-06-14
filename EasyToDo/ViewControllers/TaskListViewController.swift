@@ -184,7 +184,7 @@ class TaskListViewController: UIViewController {
         let saveAction = UIAlertAction(title: "Сохранить", style: .default) { action in
             let textField = alert.textFields?.first
             if let newTask = textField?.text {
-                self.tasks.insert(newTask, at: 0)
+                self.tasks.append(newTask)
                 self.tableView.reloadData()
             }
         }
@@ -204,6 +204,7 @@ class TaskListViewController: UIViewController {
     private func configureTableView() {
 //        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.backgroundColor = .clear
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -232,6 +233,7 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.backgroundColor = .clear
         cell.textLabel?.text = tasks[indexPath.row]
         return cell
     }
