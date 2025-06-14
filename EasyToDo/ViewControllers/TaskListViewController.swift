@@ -9,13 +9,18 @@ class TaskListViewController: UIViewController {
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
     
-    //MARK: - Table
+    //MARK: - Table UI Elements
     lazy var tableView = {
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
         return table
     }()
+    
+    private let addButton = UIButton()
+    
+    // MARK: - Property
+    var tasks: [String] = []
     
     //MARK: - TabBar UI Elements
     private let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
@@ -45,13 +50,14 @@ class TaskListViewController: UIViewController {
         configureHeaderTextStackView()
         configureHeaderStackView()
         configureSegmentedControl()
+        configureTableView()
+        configureAddButton()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             profileImageView.widthAnchor.constraint(equalToConstant: 60),
             profileImageView.heightAnchor.constraint(equalToConstant: 60),
-            
             
             settingsButton.widthAnchor.constraint(equalToConstant: 44),
             settingsButton.heightAnchor.constraint(equalToConstant: 44),
@@ -64,7 +70,16 @@ class TaskListViewController: UIViewController {
             segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             segmentedControl.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: 32),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 44)
+            segmentedControl.heightAnchor.constraint(equalToConstant: 44),
+            
+            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 32),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            addButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
+            addButton.widthAnchor.constraint(equalToConstant: 64),
+            addButton.heightAnchor.constraint(equalToConstant: 64)
         ])
     }
     
@@ -165,17 +180,40 @@ class TaskListViewController: UIViewController {
     
     //MARK: - TableView
     private func configureTableView() {
+        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         
+        view.addSubview(tableView)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureAddButton() {
+        addButton.setTitle("", for: .normal)
+        addButton.setImage(UIImage(named: "AddButton"), for: .normal)
+        addButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        
+        addButton.applyCustomShadow()
+        view.addSubview(addButton)
+        addButton.translatesAutoresizingMaskIntoConstraints = false
     }
 }
 
 extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 64 // здесь укажи нужную тебе высоту
     }
     
 }
