@@ -11,7 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let window = UIWindow(windowScene: windowScene)
                 
                 // Указываем начальный контроллер (замените на ваш)
-                let viewController = TaskListViewController() // Ваш экран регистрации
+                let viewController = SplashViewController() // Ваш экран регистрации
                 window.rootViewController = viewController
                 
                 // Устанавливаем окно как активное
