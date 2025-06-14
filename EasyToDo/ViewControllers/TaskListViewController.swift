@@ -1,6 +1,50 @@
 import UIKit
 
 class TaskListViewController: UIViewController {
+    
+    // MARK: - Constants
+    private enum TaskListConstants {
+        // Sizes
+        static let profileImageSize: CGFloat = 60
+        static let profileImageCornerRadius: CGFloat = profileImageSize / 2
+        
+        static let settingsButtonSize: CGFloat = 44
+        
+        static let headerStackViewHeight: CGFloat = 60
+        
+        static let segmentedControlHeight: CGFloat = 44
+        
+        static let addButtonSize: CGFloat = 64
+        
+        static let tableViewRowHeight: CGFloat = 64 + 32
+        
+        // Margins
+        static let topMargin: CGFloat = 16
+        static let sideMargin: CGFloat = 16
+        static let segmentTopMargin: CGFloat = 32
+        static let tableViewTopMargin: CGFloat = 32
+        static let tableViewBottomToAddButton: CGFloat = 16
+        static let addButtonBottomMargin: CGFloat = 32
+        static let spacerWidth: CGFloat = 19
+        
+        // Texts
+        static let helloText = "Привет,"
+        static let userNameText = "Daniil Isakov"
+        static let alertTitle = "Новая задача"
+        static let alertMessage = "Пожалуйста добавьте задачу"
+        static let alertSaveTitle = "Сохранить"
+        static let alertCancelTitle = "Закрыть"
+        
+        // Segments
+        static let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
+        static let segmentedSelectedIndex = 1
+        
+        // Fonts
+        static let helloLabelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
+        static let userNameLabelFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+        static let segmentedControlFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+    }
+    
     //MARK: - Header UI Elements
     private let profileImageView = ProfileImage.makeImageView()
     private let helloLabel = UILabel()
@@ -23,14 +67,12 @@ class TaskListViewController: UIViewController {
     var tasks: [String] = []
     
     //MARK: - TabBar UI Elements
-    private let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
     private var segmentedControl = UISegmentedControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,53 +98,55 @@ class TaskListViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            profileImageView.widthAnchor.constraint(equalToConstant: 60),
-            profileImageView.heightAnchor.constraint(equalToConstant: 60),
+            profileImageView.widthAnchor.constraint(equalToConstant: TaskListConstants.profileImageSize),
+            profileImageView.heightAnchor.constraint(equalToConstant: TaskListConstants.profileImageSize),
             
-            settingsButton.widthAnchor.constraint(equalToConstant: 44),
-            settingsButton.heightAnchor.constraint(equalToConstant: 44),
+            settingsButton.widthAnchor.constraint(equalToConstant: TaskListConstants.settingsButtonSize),
+            settingsButton.heightAnchor.constraint(equalToConstant: TaskListConstants.settingsButtonSize),
             
-            headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            headerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            headerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            headerStackView.heightAnchor.constraint(equalToConstant: 60),
+            headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: TaskListConstants.topMargin),
+            headerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: TaskListConstants.sideMargin),
+            headerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -TaskListConstants.sideMargin),
+            headerStackView.heightAnchor.constraint(equalToConstant: TaskListConstants.headerStackViewHeight),
             
-            segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            segmentedControl.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: 32),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 44),
+            segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: TaskListConstants.sideMargin),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -TaskListConstants.sideMargin),
+            segmentedControl.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: TaskListConstants.segmentTopMargin),
+            segmentedControl.heightAnchor.constraint(equalToConstant: TaskListConstants.segmentedControlHeight),
             
-            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 32),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            tableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -16),
-            addButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
-            addButton.widthAnchor.constraint(equalToConstant: 64),
-            addButton.heightAnchor.constraint(equalToConstant: 64)
+            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: TaskListConstants.tableViewTopMargin),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: TaskListConstants.sideMargin),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -TaskListConstants.sideMargin),
+            tableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -TaskListConstants.tableViewBottomToAddButton),
             
+            addButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -TaskListConstants.sideMargin),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -TaskListConstants.addButtonBottomMargin),
+            addButton.widthAnchor.constraint(equalToConstant: TaskListConstants.addButtonSize),
+            addButton.heightAnchor.constraint(equalToConstant: TaskListConstants.addButtonSize)
         ])
     }
     
     private func configureProfileImageView() {
-        profileImageView.layer.cornerRadius = 30
+        profileImageView.layer.cornerRadius = TaskListConstants.profileImageCornerRadius
     }
     
     private func configureHelloLabel() {
-        helloLabel.text = "Привет,"
-        helloLabel.font = .systemFont(ofSize: 17, weight: .regular)
+        helloLabel.text = TaskListConstants.helloText
+        helloLabel.font = TaskListConstants.helloLabelFont
         helloLabel.textColor = UIColor(named: "YPTextGray")
         helloLabel.numberOfLines = 0
         helloLabel.textAlignment = .left
     }
+
     
     private func configureUserNameLabel() {
-        userNameLabel.text = "Daniil Isakov"
-        userNameLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        userNameLabel.text = TaskListConstants.userNameText
+        userNameLabel.font = TaskListConstants.userNameLabelFont
         userNameLabel.textColor = UIColor(named: "YPBlack")
         userNameLabel.numberOfLines = 0
         userNameLabel.textAlignment = .left
     }
+
     
     private func configureSettingsButton() {
         settingsButton.setTitle("", for: .normal)
@@ -126,7 +170,7 @@ class TaskListViewController: UIViewController {
     private func configureHeaderStackView() {
         let spacer = UIView()
         spacer.translatesAutoresizingMaskIntoConstraints = false
-        spacer.widthAnchor.constraint(equalToConstant: 19).isActive = true
+        spacer.widthAnchor.constraint(equalToConstant: TaskListConstants.spacerWidth).isActive = true
         
         headerStackView.axis = .horizontal
         headerStackView.alignment = .center
@@ -142,7 +186,7 @@ class TaskListViewController: UIViewController {
     }
     
     private func configureSegmentedControl() {
-        for (index, item) in segmentItems.enumerated() {
+        for (index, item) in TaskListConstants.segmentItems.enumerated() {
             segmentedControl.insertSegment(withTitle: item, at: index, animated: false)
         }
         
@@ -168,7 +212,7 @@ class TaskListViewController: UIViewController {
         
         segmentedControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
         
-        segmentedControl.selectedSegmentIndex = 1
+        segmentedControl.selectedSegmentIndex = TaskListConstants.segmentedSelectedIndex
         
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(segmentedControl)
@@ -180,8 +224,8 @@ class TaskListViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let alert = UIAlertController(title: "Новая задача", message: "Пожалуйста добавьте задачу", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { action in
+        let alert = UIAlertController(title: TaskListConstants.alertTitle, message: TaskListConstants.alertMessage, preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: TaskListConstants.alertSaveTitle, style: .default) { action in
             let textField = alert.textFields?.first
             if let newTask = textField?.text {
                 self.tasks.append(newTask)
@@ -191,10 +235,10 @@ class TaskListViewController: UIViewController {
         
         alert.addTextField{ _ in }
         
-        let cencelAction = UIAlertAction(title: "Закрыть", style: .default) { _ in }
+        let cancelAction = UIAlertAction(title: TaskListConstants.alertCancelTitle, style: .default) { _ in }
         
         alert.addAction(saveAction)
-        alert.addAction(cencelAction)
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
         print("Добавить нажал")
         
@@ -242,7 +286,7 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64 + 32
+        return TaskListConstants.tableViewRowHeight
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -250,5 +294,4 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.masksToBounds = true
     }
-    
 }
