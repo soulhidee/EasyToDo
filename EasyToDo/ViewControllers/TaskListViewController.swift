@@ -9,6 +9,14 @@ class TaskListViewController: UIViewController {
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
     
+    //MARK: - Table
+    lazy var tableView = {
+        let table = UITableView()
+        table.dataSource = self
+        table.delegate = self
+        return table
+    }()
+    
     //MARK: - TabBar UI Elements
     private let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
     private var segmentedControl = UISegmentedControl()
@@ -155,7 +163,19 @@ class TaskListViewController: UIViewController {
         print("Нажал")
     }
     
+    //MARK: - TableView
+    private func configureTableView() {
+        
+    }
+}
+
+extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
     
-    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
     
 }
