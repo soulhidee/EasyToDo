@@ -5,6 +5,7 @@ final class UserDataManager {
     static let shared = UserDataManager()
     private init() {}
     
+    // MARK: - Save / Load User Name
     func saveUserName(_ name: String) {
         UserDefaults.standard.set(name, forKey: Constants.userNameKey)
     }
@@ -13,6 +14,7 @@ final class UserDataManager {
         UserDefaults.standard.string(forKey: Constants.userNameKey)
     }
     
+    // MARK: - Save / Load Profile Image
     func saveProfileImage(_ image: UIImage) {
         guard let data = image.jpegData(compressionQuality: 0.8) else { return }
         let url = getDocumentsDirectory().appendingPathComponent(Constants.profileImageFileName)
@@ -25,6 +27,16 @@ final class UserDataManager {
         return UIImage(data: data)
     }
     
+    // MARK: - Authorization Status
+    func setUserAuthorized(_ authorized: Bool) {
+        UserDefaults.standard.set(authorized, forKey: Constants.isUserAuthorizedKey)
+    }
+    
+    func isUserAuthorized() -> Bool {
+        UserDefaults.standard.bool(forKey: Constants.isUserAuthorizedKey)
+    }
+    
+    // MARK: - Helpers
     private func getDocumentsDirectory() -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }

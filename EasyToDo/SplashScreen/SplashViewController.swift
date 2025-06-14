@@ -17,6 +17,10 @@ final class SplashViewController: UIViewController {
         setupConstraints()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkAuthorization()
+    }
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             launchImageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -25,4 +29,10 @@ final class SplashViewController: UIViewController {
             launchImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    private func checkAuthorization() {
+    
+    }
+    
+    private func
 }

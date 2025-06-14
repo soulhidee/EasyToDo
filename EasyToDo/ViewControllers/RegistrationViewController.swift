@@ -33,7 +33,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         let gradient = GradientHelper.makeGradientLayer(frame: view.bounds)
         view.layer.insertSublayer(gradient, at: 0)
     }
-
+    
     
     // MARK: - Setup Views
     private func setupViews() {
@@ -201,6 +201,19 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func startButtonTapped() {
+        guard let name = nameTextField.text, !name.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        UserDataManager.shared.saveUserName(name)
+        if let image = profileImageView.image {
+            UserDataManager.shared.saveProfileImage(image)
+        }
+        UserDataManager.shared.setUserAuthorized(true)
+        let mainVC = TaskListViewController()
+        let nav = UINavigationController(rootViewController: mainVC)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
+        
     }
     
     @objc private func imageTapped() {
