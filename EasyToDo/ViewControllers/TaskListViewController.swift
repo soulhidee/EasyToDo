@@ -227,6 +227,20 @@ class TaskListViewController: UIViewController {
     
     @objc private func settingsButtonTapped() {
         print("Нажал")
+        let actionSheet = UIAlertController(title: "Настройки", message: nil, preferredStyle: .actionSheet)
+        let editUserName = UIAlertAction(title: "Изменить имя профиля", style: .default) { _ in
+                print("Имя")
+        }
+        let editPhoto = UIAlertAction(title: "Изменить фото профиля", style: .default) { _ in
+            print("Фото")
+        }
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        actionSheet.addAction(editUserName)
+        actionSheet.addAction(editPhoto)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true)
     }
     
     @objc private func addButtonTapped() {
@@ -312,11 +326,16 @@ class TaskListViewController: UIViewController {
 extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
-                            commit editingStyle: UITableViewCell.EditingStyle,
-                            forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            deleteTask(at: indexPath)
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "") { (action, view, completionHandler) in
+            self.deleteTask(at: indexPath)
+            completionHandler(true)
         }
+        deleteAction.backgroundColor = UIColor.clear.withAlphaComponent(0.01)
+        deleteAction.image = nil
+
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -334,7 +353,6 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         
         let task = tasks[indexPath.row]
-            ///!!!!!!!!!!!!
         cell.configure(with: task.title!, isChecked: false)
         return cell
     }
