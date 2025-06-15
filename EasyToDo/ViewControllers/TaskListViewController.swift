@@ -292,9 +292,32 @@ class TaskListViewController: UIViewController {
         view.addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    private func deleteTask(at indexPath: IndexPath) {
+        guard let context = getContext() else { return }
+        let taskToDelete = tasks[indexPath.row]
+        
+        context.delete(taskToDelete)
+
+        do {
+            try context.save()
+            tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        } catch let error as NSError {
+            print("Не удалось удалить задачу: \(error.localizedDescription)")
+        }
+    }
 }
 
 extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCell.EditingStyle,
+                            forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deleteTask(at: indexPath)
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
