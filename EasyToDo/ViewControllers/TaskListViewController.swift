@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 class TaskListViewController: UIViewController {
     
@@ -58,12 +59,24 @@ class TaskListViewController: UIViewController {
     private let addButton = UIButton()
     
     // MARK: - Property
-    var tasks: [String] = []
+    var tasks: [Task] = []
     var userName: String = TaskListConstants.userNameText
     let profileImage = UserDataManager.shared.loadProfileImage()
     
     //MARK: - TabBar UI Elements
     private var segmentedControl = UISegmentedControl()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let context = getContext()
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        
+        do {
+            tasks = try context.fetch(fetchRequest)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -220,8 +233,8 @@ class TaskListViewController: UIViewController {
         let alert = UIAlertController(title: TaskListConstants.alertTitle, message: TaskListConstants.alertMessage, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: TaskListConstants.alertSaveTitle, style: .default) { action in
             let textField = alert.textFields?.first
-            if let newTask = textField?.text {
-                self.tasks.append(newTask)
+            if let newTaskTitle = textField?.text {
+                self.saveTask(withTitle: newTaskTitle)
                 self.tableView.reloadData()
             }
         }
@@ -235,6 +248,28 @@ class TaskListViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    private func getContext() -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
+    }
+    
+    private func saveTask(withTitle title: String) {
+        let context = getContext()
+        guard let entity = NSEntityDescription.entity(forEntityName: "Task", in: context) else {
+            return
+        }
+        
+        let taskObject = Task(entity: entity, insertInto: context)
+        
+        taskObject.title = title
+        
+        do {
+            try context.save()
+            tasks.append(taskObject)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
     //MARK: - TableView
     private func configureTableView() {
         tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseIdentifier)
@@ -272,7 +307,10 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.backgroundColor = .clear
-        cell.configure(with: tasks[indexPath.row], isChecked: false)
+        
+        let task = tasks[indexPath.row]
+            ///!!!!!!!!!!!!
+        cell.configure(with: task.title!, isChecked: false)
         return cell
     }
     
