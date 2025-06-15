@@ -62,6 +62,7 @@ class TaskListViewController: UIViewController {
     var tasks: [Task] = []
     var userName: String = TaskListConstants.userNameText
     let profileImage = UserDataManager.shared.loadProfileImage()
+    private let imagePicker = ProfileImagePicker()
     
     //MARK: - TabBar UI Elements
     private var segmentedControl = UISegmentedControl()
@@ -255,6 +256,10 @@ class TaskListViewController: UIViewController {
             self.showChangeNameAlert()
         }
         let editPhoto = UIAlertAction(title: "Изменить фото профиля", style: .default) { _ in
+            self.imagePicker.showImagePicker(in: self) { selectedImage in
+                self.profileImageView.image = selectedImage
+                UserDataManager.shared.saveProfileImage(selectedImage)
+            }
             print("Фото")
         }
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
