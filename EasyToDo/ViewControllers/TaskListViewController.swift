@@ -7,14 +7,14 @@ class TaskListViewController: UIViewController {
     private enum TaskListConstants {
         static let profileImageSize: CGFloat = 60
         static let profileImageCornerRadius: CGFloat = profileImageSize / 2
-
+        
         static let settingsButtonSize: CGFloat = 44
         static let addButtonSize: CGFloat = 64
-
+        
         static let headerStackViewHeight: CGFloat = 60
         static let segmentedControlHeight: CGFloat = 44
         static let tableViewRowHeight: CGFloat = 96
-
+        
         static let topMargin: CGFloat = 16
         static let sideMargin: CGFloat = 16
         static let segmentTopMargin: CGFloat = 32
@@ -22,19 +22,19 @@ class TaskListViewController: UIViewController {
         static let tableViewBottomToAddButton: CGFloat = 16
         static let addButtonBottomMargin: CGFloat = 32
         static let spacerWidth: CGFloat = 19
-
+        
         static let helloText = "Привет,"
         static let userNameText = "Имя можно задать в настройках"
         static let alertTitle = "Новая задача"
         static let alertMessage = "Пожалуйста добавьте задачу"
         static let alertSaveTitle = "Сохранить"
         static let alertCancelTitle = "Закрыть"
-
+        
         static let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
         static let segmentedSelectedIndex = 1
         static let segmentedControlBorderWidth: CGFloat = 1
         static let segmentedControlCornerRadius: CGFloat = 10
-
+        
         static let helloLabelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
         static let userNameLabelFont = UIFont.systemFont(ofSize: 22, weight: .bold)
         static let segmentedControlFont = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -224,12 +224,35 @@ class TaskListViewController: UIViewController {
         view.addSubview(segmentedControl)
     }
     
+    private func showChangeNameAlert() {
+        let alert = UIAlertController(title: "Изменить имя", message: "Введите новое имя профиля", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder =  self.userNameLabel.text
+        }
+        
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+            if let newName = alert.textFields?.first?.text {
+                UserDefaults.standard.set(newName, forKey: "userName")
+                print("Новое имя \(newName)")
+                self.userNameLabel.text = newName
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
     
     @objc private func settingsButtonTapped() {
         print("Нажал")
         let actionSheet = UIAlertController(title: "Настройки", message: nil, preferredStyle: .actionSheet)
         let editUserName = UIAlertAction(title: "Изменить имя профиля", style: .default) { _ in
-                print("Имя")
+            print("Имя")
+            self.showChangeNameAlert()
         }
         let editPhoto = UIAlertAction(title: "Изменить фото профиля", style: .default) { _ in
             print("Фото")
@@ -312,7 +335,7 @@ class TaskListViewController: UIViewController {
         let taskToDelete = tasks[indexPath.row]
         
         context.delete(taskToDelete)
-
+        
         do {
             try context.save()
             tasks.remove(at: indexPath.row)
@@ -327,14 +350,14 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
+        
         let deleteAction = UIContextualAction(style: .destructive, title: "") { (action, view, completionHandler) in
             self.deleteTask(at: indexPath)
             completionHandler(true)
         }
         deleteAction.backgroundColor = UIColor.clear.withAlphaComponent(0.01)
         deleteAction.image = nil
-
+        
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
