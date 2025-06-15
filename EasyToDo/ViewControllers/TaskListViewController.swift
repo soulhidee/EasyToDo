@@ -4,21 +4,16 @@ class TaskListViewController: UIViewController {
     
     // MARK: - Constants
     private enum TaskListConstants {
-        // Sizes
         static let profileImageSize: CGFloat = 60
         static let profileImageCornerRadius: CGFloat = profileImageSize / 2
-        
+
         static let settingsButtonSize: CGFloat = 44
-        
-        static let headerStackViewHeight: CGFloat = 60
-        
-        static let segmentedControlHeight: CGFloat = 44
-        
         static let addButtonSize: CGFloat = 64
-        
-        static let tableViewRowHeight: CGFloat = 64 + 32
-        
-        // Margins
+
+        static let headerStackViewHeight: CGFloat = 60
+        static let segmentedControlHeight: CGFloat = 44
+        static let tableViewRowHeight: CGFloat = 96
+
         static let topMargin: CGFloat = 16
         static let sideMargin: CGFloat = 16
         static let segmentTopMargin: CGFloat = 32
@@ -26,22 +21,19 @@ class TaskListViewController: UIViewController {
         static let tableViewBottomToAddButton: CGFloat = 16
         static let addButtonBottomMargin: CGFloat = 32
         static let spacerWidth: CGFloat = 19
-        
-        // Texts
+
         static let helloText = "Привет,"
         static let userNameText = "Имя можно задать в настройках"
         static let alertTitle = "Новая задача"
         static let alertMessage = "Пожалуйста добавьте задачу"
         static let alertSaveTitle = "Сохранить"
         static let alertCancelTitle = "Закрыть"
-        
-        // Segments
+
         static let segmentItems = ["Все задачи", "В процессе", "Выполнено"]
         static let segmentedSelectedIndex = 1
         static let segmentedControlBorderWidth: CGFloat = 1
         static let segmentedControlCornerRadius: CGFloat = 10
-        
-        // Fonts
+
         static let helloLabelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
         static let userNameLabelFont = UIFont.systemFont(ofSize: 22, weight: .bold)
         static let segmentedControlFont = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -55,9 +47,6 @@ class TaskListViewController: UIViewController {
     private let headerTextStackView = UIStackView()
     private let headerStackView = UIStackView()
     
-    
-    var userName: String = TaskListConstants.userNameText
-    let profileImage = UserDataManager.shared.loadProfileImage()
     //MARK: - Table UI Elements
     lazy var tableView = {
         let table = UITableView()
@@ -70,6 +59,8 @@ class TaskListViewController: UIViewController {
     
     // MARK: - Property
     var tasks: [String] = []
+    var userName: String = TaskListConstants.userNameText
+    let profileImage = UserDataManager.shared.loadProfileImage()
     
     //MARK: - TabBar UI Elements
     private var segmentedControl = UISegmentedControl()
@@ -144,7 +135,6 @@ class TaskListViewController: UIViewController {
         helloLabel.textAlignment = .left
     }
     
-    
     private func configureUserNameLabel() {
         let savedUserName = UserDefaults.standard.string(forKey: "userName") ?? TaskListConstants.userNameText
         userNameLabel.text = savedUserName
@@ -154,13 +144,11 @@ class TaskListViewController: UIViewController {
         userNameLabel.textAlignment = .left
     }
     
-    
     private func configureSettingsButton() {
         settingsButton.setTitle("", for: .normal)
         settingsButton.setImage(UIImage.settings, for: .normal)
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        
         settingsButton.applyCustomShadow()
     }
     
@@ -178,7 +166,6 @@ class TaskListViewController: UIViewController {
         let spacer = UIView()
         spacer.translatesAutoresizingMaskIntoConstraints = false
         spacer.widthAnchor.constraint(equalToConstant: TaskListConstants.spacerWidth).isActive = true
-        
         headerStackView.axis = .horizontal
         headerStackView.alignment = .center
         headerStackView.distribution = .fill
@@ -188,7 +175,6 @@ class TaskListViewController: UIViewController {
         headerStackView.addArrangedSubview(spacer)
         headerStackView.addArrangedSubview(headerTextStackView)
         headerStackView.addArrangedSubview(settingsButton)
-        
         view.addSubview(headerStackView)
     }
     
@@ -247,8 +233,6 @@ class TaskListViewController: UIViewController {
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
-        print("Добавить нажал")
-        
     }
     
     //MARK: - TableView
@@ -264,7 +248,7 @@ class TaskListViewController: UIViewController {
     
     private func configureAddButton() {
         addButton.setTitle("", for: .normal)
-        addButton.setImage(UIImage(named: "AddButton"), for: .normal)
+        addButton.setImage(UIImage.addButton, for: .normal)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
         addButton.applyCustomShadow()

@@ -2,6 +2,8 @@ import UIKit
 
 final class SplashViewController: UIViewController {
     
+    // MARK: - UI Elements
+    
     private let launchImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.launchScreen
@@ -9,6 +11,8 @@ final class SplashViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +24,9 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         checkAuthorization()
     }
+    
+    // MARK: - Layout
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             launchImageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -29,29 +36,30 @@ final class SplashViewController: UIViewController {
         ])
     }
     
+    // MARK: - Authorization Flow
+    
     private func checkAuthorization() {
-            let isAuthorized = UserDataManager.shared.isUserAuthorized()
+        let isAuthorized = UserDataManager.shared.isUserAuthorized()
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                if isAuthorized {
-                    self.showMainScreen()
-                } else {
-                    self.showRegistration()
-                }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            if isAuthorized {
+                self.showMainScreen()
+            } else {
+                self.showRegistration()
             }
         }
+    }
 
-        private func showMainScreen() {
-            let mainVC = TaskListViewController()
-            let nav = UINavigationController(rootViewController: mainVC)
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: true)
-        }
+    private func showMainScreen() {
+        let mainVC = TaskListViewController()
+        let nav = UINavigationController(rootViewController: mainVC)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
+    }
 
-        private func showRegistration() {
-            let registrationVC = RegistrationViewController()
-            registrationVC.modalPresentationStyle = .fullScreen
-            self.present(registrationVC, animated: true)
-        }
-    
+    private func showRegistration() {
+        let registrationVC = RegistrationViewController()
+        registrationVC.modalPresentationStyle = .fullScreen
+        self.present(registrationVC, animated: true)
+    }
 }

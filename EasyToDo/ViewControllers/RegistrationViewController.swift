@@ -1,6 +1,30 @@
 import UIKit
 
 final class RegistrationViewController: UIViewController, UITextFieldDelegate {
+    //MARK: - Constants
+    private enum RegistrationConstants {
+        static let profileImageSize: CGFloat = 150
+        static let buttonCornerRadius: CGFloat = 16
+        
+        static let mainStackViewLeading: CGFloat = 31
+        static let mainStackViewTrailing: CGFloat = -31
+        static let mainStackSpacing: CGFloat = 32
+        static let helloStackSpacing: CGFloat = 8
+        
+        static let textFieldHeight: CGFloat = 44
+        static let textFieldInsetWidth: CGFloat = 14
+        static let maxNameLength: Int = 20
+        
+        static let buttonHeight: CGFloat = 55
+        static let startButtonLeading: CGFloat = 92
+        static let startButtonTrailing: CGFloat = -92
+        
+        static let helloText = "Здравствуйте!"
+        static let greetingText = "Давайте познакомимся с вами поближе"
+        static let namePlaceholder = "Введите ваше имя"
+        static let startButtonTitle = "Начать"
+        static let settingsHintText = "Позже можно изменить в разделе Настройки."
+    }
     
     // MARK: - UI Elements
     private let profileImageView = ProfileImage.makeImageView()
@@ -27,11 +51,10 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        // Удаляем старый, если есть, чтобы не накапливать слои
         view.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
         
         let gradient = GradientHelper.makeGradientLayer(frame: view.bounds)
-        view.layer.insertSublayer(gradient, at: 0)
+        view.layer.insertSublayer(gradient, at: .zero)
     }
     
     
@@ -50,21 +73,21 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Setup Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            profileImageView.widthAnchor.constraint(equalToConstant: Constants.profileImageSize),
-            profileImageView.heightAnchor.constraint(equalToConstant: Constants.profileImageSize),
+            profileImageView.widthAnchor.constraint(equalToConstant: RegistrationConstants.profileImageSize),
+            profileImageView.heightAnchor.constraint(equalToConstant: RegistrationConstants.profileImageSize),
             
             mainStackView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.mainStackViewLeading),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Constants.mainStackViewTrailing),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: RegistrationConstants.mainStackViewLeading),
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: RegistrationConstants.mainStackViewTrailing),
             
             profileImageView.widthAnchor.constraint(equalTo: profileImageView.heightAnchor),
             
-            nameTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+            nameTextField.heightAnchor.constraint(equalToConstant: RegistrationConstants.textFieldHeight),
             nameTextField.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             
-            startButton.heightAnchor.constraint(equalToConstant: Constants.buttonHeight),
-            startButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: Constants.startButtonLeading),
-            startButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: Constants.startButtonTrailing)
+            startButton.heightAnchor.constraint(equalToConstant: RegistrationConstants.buttonHeight),
+            startButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: RegistrationConstants.startButtonLeading),
+            startButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: RegistrationConstants.startButtonTrailing)
         ])
     }
     
@@ -78,7 +101,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     private func configureHelloLabel() {
         helloLabel.text = "Здравствуйте!"
         helloLabel.font = .systemFont(ofSize: 28, weight: .bold)
-        helloLabel.textColor = UIColor(named: "YPTextGray")
+        helloLabel.textColor = UIColor.ypTextGray
         helloLabel.numberOfLines = .zero
         helloLabel.textAlignment = .center
         helloLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +110,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     private func configureGreetingLabel() {
         greetingLabel.text = "Давайте познакомимся с вами поближе"
         greetingLabel.font = .systemFont(ofSize: 17, weight: .regular)
-        greetingLabel.textColor = UIColor(named: "YPTextGray")
+        greetingLabel.textColor = UIColor.ypTextGray
         greetingLabel.numberOfLines = .zero
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -96,14 +119,14 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         nameTextField.attributedPlaceholder = NSAttributedString(
             string: "Введите ваше имя",
             attributes: [
-                .foregroundColor: UIColor(named: "YPPlaceholder") ?? .green,
+                .foregroundColor: UIColor.ypPlaceholder,
                 .font: UIFont.systemFont(ofSize: 14)
             ]
         )
         nameTextField.textAlignment = .left
         
-        nameTextField.layer.borderColor = UIColor(named: "YPGreen")?.cgColor ?? UIColor.green.cgColor
-        nameTextField.textColor = UIColor(named: "YPTextGray")
+        nameTextField.layer.borderColor = UIColor.ypGreen.cgColor
+        nameTextField.textColor = UIColor.ypGreen
         nameTextField.layer.borderWidth = 1
         nameTextField.layer.cornerRadius = 10
         nameTextField.layer.masksToBounds = true
@@ -123,8 +146,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         startButton.setTitle("Начать", for: .normal)
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         startButton.setTitleColor(.white, for: .normal)
-        startButton.backgroundColor = UIColor(named: "YPGreen") ?? .green
-        startButton.layer.cornerRadius = Constants.buttonCornerRadius
+        startButton.backgroundColor = UIColor.ypGreen
+        startButton.layer.cornerRadius = RegistrationConstants.buttonCornerRadius
         startButton.translatesAutoresizingMaskIntoConstraints = false
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
         
@@ -134,7 +157,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     private func configureSettingsHintLabel() {
         settingsHintLabel.text = "Позже можно изменить в разделе Настройки."
         settingsHintLabel.font = .systemFont(ofSize: 16, weight: .regular)
-        settingsHintLabel.textColor = UIColor(named: "YPGray")
+        settingsHintLabel.textColor = UIColor.ypGray
         settingsHintLabel.textAlignment = .center
         settingsHintLabel.numberOfLines = .zero
         settingsHintLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -144,7 +167,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         mainStackView.axis = .vertical
         mainStackView.alignment = .center
         mainStackView.distribution = .fill
-        mainStackView.spacing = Constants.mainStackSpacing
+        mainStackView.spacing = RegistrationConstants.mainStackSpacing
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         
         mainStackView.addArrangedSubview(profileImageView)
@@ -160,7 +183,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         helloStackView.axis = .vertical
         helloStackView.alignment = .fill
         helloStackView.distribution = .fill
-        helloStackView.spacing = Constants.helloStackSpacing
+        helloStackView.spacing = RegistrationConstants.helloStackSpacing
         helloStackView.translatesAutoresizingMaskIntoConstraints = false
         
         helloStackView.addArrangedSubview(helloLabel)
@@ -191,7 +214,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func makeTextFieldPaddingView() -> UIView {
-        UIView(frame: CGRect(x: 0, y: 0, width: Constants.textFieldInsetWidth, height: Constants.textFieldHeight))
+        UIView(frame: CGRect(x: .zero, y: .zero, width: RegistrationConstants.textFieldInsetWidth, height: RegistrationConstants.textFieldHeight))
     }
     
     
@@ -235,7 +258,7 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         }
         
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        return updatedText.count <= Constants.maxNameLength
+        return updatedText.count <= RegistrationConstants.maxNameLength
     }
     
     
