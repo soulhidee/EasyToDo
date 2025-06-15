@@ -3,7 +3,6 @@ import UIKit
 final class SplashViewController: UIViewController {
     
     // MARK: - UI Elements
-    
     private let launchImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.launchScreen
@@ -13,7 +12,6 @@ final class SplashViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(launchImageView)
@@ -25,8 +23,7 @@ final class SplashViewController: UIViewController {
         checkAuthorization()
     }
     
-    // MARK: - Layout
-    
+    // MARK: - Constraint
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             launchImageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -37,7 +34,6 @@ final class SplashViewController: UIViewController {
     }
     
     // MARK: - Authorization Flow
-    
     private func checkAuthorization() {
         let isAuthorized = UserDataManager.shared.isUserAuthorized()
 
