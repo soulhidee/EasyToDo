@@ -68,7 +68,7 @@ class TaskListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let context = getContext()
+        guard let context = getContext() else { return }
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
         
         do {
@@ -248,13 +248,15 @@ class TaskListViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func getContext() -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private func getContext() -> NSManagedObjectContext? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return nil
+        }
         return appDelegate.persistentContainer.viewContext
     }
     
     private func saveTask(withTitle title: String) {
-        let context = getContext()
+        guard let context = getContext() else { return }
         guard let entity = NSEntityDescription.entity(forEntityName: "Task", in: context) else {
             return
         }
