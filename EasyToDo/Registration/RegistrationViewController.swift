@@ -11,9 +11,15 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         static let mainStackSpacing: CGFloat = 32
         static let helloStackSpacing: CGFloat = 8
         
+        static let startButtonDisabledAlpha: CGFloat = 0.5
+        static let startButtonEnabledAlpha: CGFloat = 1.0
+        static let nameMinLength: Int = 2
+        
         static let textFieldHeight: CGFloat = 44
         static let textFieldInsetWidth: CGFloat = 14
         static let maxNameLength: Int = 20
+        static let nameTextFieldBorderWidth: CGFloat = 1
+        static let nameTextFieldCornerRadius: CGFloat = 10
         
         static let buttonHeight: CGFloat = 55
         static let startButtonLeading: CGFloat = 92
@@ -24,6 +30,21 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
         static let namePlaceholder = "Введите ваше имя"
         static let startButtonTitle = "Начать"
         static let settingsHintText = "Позже можно изменить в разделе Настройки."
+        
+        
+        static let helloFontSize: CGFloat = 28
+        static let helloFontWeight: UIFont.Weight = .bold
+
+        static let greetingFontSize: CGFloat = 17
+        static let greetingFontWeight: UIFont.Weight = .regular
+
+        static let placeholderFontSize: CGFloat = 14
+
+        static let startButtonFontSize: CGFloat = 18
+        static let startButtonFontWeight: UIFont.Weight = .medium
+
+        static let settingsHintFontSize: CGFloat = 16
+        static let settingsHintFontWeight: UIFont.Weight = .regular
     }
     
     // MARK: - UI Elements
@@ -99,8 +120,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func configureHelloLabel() {
-        helloLabel.text = "Здравствуйте!"
-        helloLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        helloLabel.text = RegistrationConstants.helloText
+        helloLabel.font = .systemFont(ofSize: RegistrationConstants.helloFontSize, weight: RegistrationConstants.helloFontWeight)
         helloLabel.textColor = UIColor.ypTextGray
         helloLabel.numberOfLines = .zero
         helloLabel.textAlignment = .center
@@ -108,8 +129,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func configureGreetingLabel() {
-        greetingLabel.text = "Давайте познакомимся с вами поближе"
-        greetingLabel.font = .systemFont(ofSize: 17, weight: .regular)
+        greetingLabel.text = RegistrationConstants.greetingText
+        greetingLabel.font = .systemFont(ofSize: RegistrationConstants.greetingFontSize, weight: RegistrationConstants.greetingFontWeight)
         greetingLabel.textColor = UIColor.ypTextGray
         greetingLabel.numberOfLines = .zero
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -117,18 +138,18 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     private func configureNameTextField() {
         nameTextField.attributedPlaceholder = NSAttributedString(
-            string: "Введите ваше имя",
+            string: RegistrationConstants.namePlaceholder,
             attributes: [
                 .foregroundColor: UIColor.ypPlaceholder,
-                .font: UIFont.systemFont(ofSize: 14)
+                .font: UIFont.systemFont(ofSize: RegistrationConstants.placeholderFontSize)
             ]
         )
         nameTextField.textAlignment = .left
         
         nameTextField.layer.borderColor = UIColor.ypGreen.cgColor
         nameTextField.textColor = UIColor.ypGreen
-        nameTextField.layer.borderWidth = 1
-        nameTextField.layer.cornerRadius = 10
+        nameTextField.layer.borderWidth = RegistrationConstants.nameTextFieldBorderWidth
+        nameTextField.layer.cornerRadius = RegistrationConstants.nameTextFieldCornerRadius
         nameTextField.layer.masksToBounds = true
         
         let paddingViewLeft = makeTextFieldPaddingView()
@@ -143,8 +164,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func configureStartButton() {
-        startButton.setTitle("Начать", for: .normal)
-        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        startButton.setTitle(RegistrationConstants.startButtonTitle, for: .normal)
+        startButton.titleLabel?.font = UIFont.systemFont(ofSize: RegistrationConstants.startButtonFontSize, weight: RegistrationConstants.startButtonFontWeight)
         startButton.setTitleColor(.white, for: .normal)
         startButton.backgroundColor = UIColor.ypGreen
         startButton.layer.cornerRadius = RegistrationConstants.buttonCornerRadius
@@ -155,8 +176,8 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func configureSettingsHintLabel() {
-        settingsHintLabel.text = "Позже можно изменить в разделе Настройки."
-        settingsHintLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        settingsHintLabel.text = RegistrationConstants.settingsHintText
+        settingsHintLabel.font = .systemFont(ofSize: RegistrationConstants.settingsHintFontSize, weight: RegistrationConstants.settingsHintFontWeight)
         settingsHintLabel.textColor = UIColor.ypGray
         settingsHintLabel.textAlignment = .center
         settingsHintLabel.numberOfLines = .zero
@@ -192,14 +213,14 @@ final class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
     private func configureNameTextFieldActions() {
         nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        startButton.alpha = 0.5
+        startButton.alpha = RegistrationConstants.startButtonDisabledAlpha
         startButton.isEnabled = false
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
         let trimmedText = textField.text?.trimmingCharacters(in: .whitespaces) ?? ""
-        startButton.isEnabled = trimmedText.count >= 2
-        startButton.alpha = startButton.isEnabled ? 1 : 0.5
+        startButton.isEnabled = trimmedText.count >= RegistrationConstants.nameMinLength
+        startButton.alpha = startButton.isEnabled ? RegistrationConstants.startButtonEnabledAlpha : RegistrationConstants.startButtonDisabledAlpha
     }
     
     private func setupDismissKeyboardGesture() {

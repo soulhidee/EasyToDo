@@ -1,3 +1,3 @@
 import UIKit
 
-protocol RegistrationViewProtocol {}
+protocol RegistrationViewProtocol: AnyObject {}
