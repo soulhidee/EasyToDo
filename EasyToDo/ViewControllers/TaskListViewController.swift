@@ -23,6 +23,8 @@ class TaskListViewController: UIViewController {
         static let addButtonBottomMargin: CGFloat = 32
         static let spacerWidth: CGFloat = 19
         
+        static let cellCornerRadius: CGFloat = 10
+        
         static let helloText = "Привет,"
         static let userNameText = "Имя можно задать в настройках"
         static let alertTitle = "Новая задача"
@@ -425,7 +427,7 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = .clear
-        cell.contentView.layer.cornerRadius = 10
+        cell.contentView.layer.cornerRadius = TaskListConstants.cellCornerRadius
         cell.contentView.layer.masksToBounds = true
     }
 }
