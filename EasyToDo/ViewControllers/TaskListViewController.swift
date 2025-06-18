@@ -35,6 +35,16 @@ class TaskListViewController: UIViewController {
         static let segmentedControlBorderWidth: CGFloat = 1
         static let segmentedControlCornerRadius: CGFloat = 10
         
+        static let settingsTitle = "Настройки"
+        static let editNameTitle = "Изменить имя профиля"
+        static let editPhotoTitle = "Изменить фото профиля"
+        static let cancelTitle = "Отмена"
+        
+        static let changeNameAlertTitle = "Изменить имя"
+        static let changeNameAlertMessage = "Введите новое имя профиля"
+        static let saveButtonTitle = "Сохранить"
+        static let userNameKey = "userName"
+        
         static let helloLabelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
         static let userNameLabelFont = UIFont.systemFont(ofSize: 22, weight: .bold)
         static let segmentedControlFont = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -226,20 +236,31 @@ class TaskListViewController: UIViewController {
     }
     
     private func showChangeNameAlert() {
-        let alert = UIAlertController(title: "Изменить имя", message: "Введите новое имя профиля", preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: TaskListConstants.changeNameAlertTitle,
+            message: TaskListConstants.changeNameAlertMessage,
+            preferredStyle: .alert
+        )
+        
         alert.addTextField { textField in
-            textField.placeholder =  self.userNameLabel.text
+            textField.placeholder = self.userNameLabel.text
         }
         
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+        let saveAction = UIAlertAction(
+            title: TaskListConstants.saveButtonTitle,
+            style: .default
+        ) { _ in
             if let newName = alert.textFields?.first?.text {
-                UserDefaults.standard.set(newName, forKey: "userName")
+                UserDefaults.standard.set(newName, forKey: TaskListConstants.userNameKey)
                 print("Новое имя \(newName)")
                 self.userNameLabel.text = newName
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        let cancelAction = UIAlertAction(
+            title: TaskListConstants.cancelTitle,
+            style: .cancel
+        )
         
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
@@ -249,20 +270,33 @@ class TaskListViewController: UIViewController {
     
     
     @objc private func settingsButtonTapped() {
-        print("Нажал")
-        let actionSheet = UIAlertController(title: "Настройки", message: nil, preferredStyle: .actionSheet)
-        let editUserName = UIAlertAction(title: "Изменить имя профиля", style: .default) { _ in
-            print("Имя")
+        let actionSheet = UIAlertController(
+            title: TaskListConstants.settingsTitle,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let editUserName = UIAlertAction(
+            title: TaskListConstants.editNameTitle,
+            style: .default
+        ) { _ in
             self.showChangeNameAlert()
         }
-        let editPhoto = UIAlertAction(title: "Изменить фото профиля", style: .default) { _ in
+        
+        let editPhoto = UIAlertAction(
+            title: TaskListConstants.editPhotoTitle,
+            style: .default
+        ) { _ in
             self.imagePicker.showImagePicker(in: self) { selectedImage in
                 self.profileImageView.image = selectedImage
                 UserDataManager.shared.saveProfileImage(selectedImage)
             }
-            print("Фото")
         }
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        let cancelAction = UIAlertAction(
+            title: TaskListConstants.cancelTitle,
+            style: .cancel
+        )
         
         actionSheet.addAction(editUserName)
         actionSheet.addAction(editPhoto)
