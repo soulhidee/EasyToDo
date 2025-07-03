@@ -1,6 +1,9 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    enum SplashViewConstants {
+        static let animationDelay: TimeInterval = 1.5
+    }
     
     // MARK: - UI Elements
     private let launchImageView: UIImageView = {
@@ -37,7 +40,7 @@ final class SplashViewController: UIViewController {
     private func checkAuthorization() {
         let isAuthorized = UserDataManager.shared.isUserAuthorized()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + SplashViewConstants.animationDelay) {
             if isAuthorized {
                 self.showMainScreen()
             } else {
