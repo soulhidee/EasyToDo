@@ -2,6 +2,10 @@ import Foundation
 import UIKit
 
 final class UserDataManager {
+    enum UserDataManagerConstants {
+        static let compressionQuality = 0.5
+    }
+    
     static let shared = UserDataManager()
     private init() {}
     
@@ -16,7 +20,7 @@ final class UserDataManager {
     
     // MARK: - Save / Load Profile Image
     func saveProfileImage(_ image: UIImage) {
-        guard let data = image.jpegData(compressionQuality: 0.8) else { return }
+        guard let data = image.jpegData(compressionQuality: UserDataManagerConstants.compressionQuality) else { return }
         let url = getDocumentsDirectory().appendingPathComponent(Constants.profileImageFileName)
         try? data.write(to: url)
     }
@@ -38,6 +42,6 @@ final class UserDataManager {
     
     // MARK: - Helpers
     private func getDocumentsDirectory() -> URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[.zero]
     }
 }
