@@ -23,7 +23,7 @@ final class TaskCell: UITableViewCell {
     private let taskLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: TaskCellConstants.fontSize, weight: .medium)
-        label.textColor = UIColor(named: "YPBlack") ?? .black
+        label.textColor = UIColor.ypBlack
         label.numberOfLines = TaskCellConstants.taskLabelNumberOfLines
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -34,7 +34,7 @@ final class TaskCell: UITableViewCell {
         view.backgroundColor = UIColor(named: "YPWhite")?.withAlphaComponent(TaskCellConstants.backgroundAlpha) ?? UIColor.white.withAlphaComponent(TaskCellConstants.backgroundAlpha)
         view.layer.cornerRadius = TaskCellConstants.cornerRadius
         view.layer.borderWidth = TaskCellConstants.borderWidth
-        view.layer.borderColor = UIColor(named: "YPGreen")?.cgColor
+        view.layer.borderColor = UIColor.ypGreen.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = false
         return view
@@ -43,8 +43,8 @@ final class TaskCell: UITableViewCell {
     private let checkButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "checkbox_off"), for: .normal)
-        button.setImage(UIImage(named: "checkbox_on"), for: .selected)
+        button.setImage(UIImage.checkboxOff, for: .normal)
+        button.setImage(UIImage.checkboxOn, for: .selected)
         return button
     }()
     

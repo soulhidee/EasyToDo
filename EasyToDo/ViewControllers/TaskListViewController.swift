@@ -50,6 +50,12 @@ class TaskListViewController: UIViewController {
         static let helloLabelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
         static let userNameLabelFont = UIFont.systemFont(ofSize: 22, weight: .bold)
         static let segmentedControlFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+        
+        static let userDefaultsUserName = "userName"
+        
+        static let coreDataTaskEntityName = "Task"
+        
+        static let backgroundAlpha: Double = 0.01
     }
     
     //MARK: - Header UI Elements
@@ -162,7 +168,7 @@ class TaskListViewController: UIViewController {
     }
     
     private func configureUserNameLabel() {
-        let savedUserName = UserDefaults.standard.string(forKey: "userName") ?? TaskListConstants.userNameText
+        let savedUserName = UserDefaults.standard.string(forKey: TaskListConstants.userDefaultsUserName) ?? TaskListConstants.userNameText
         userNameLabel.text = savedUserName
         userNameLabel.font = TaskListConstants.userNameLabelFont
         userNameLabel.textColor = UIColor.ypBlack
@@ -335,7 +341,7 @@ class TaskListViewController: UIViewController {
     
     private func saveTask(withTitle title: String) {
         guard let context = getContext() else { return }
-        guard let entity = NSEntityDescription.entity(forEntityName: "Task", in: context) else {
+        guard let entity = NSEntityDescription.entity(forEntityName: TaskListConstants.coreDataTaskEntityName, in: context) else {
             return
         }
         
@@ -396,7 +402,7 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
             self.deleteTask(at: indexPath)
             completionHandler(true)
         }
-        deleteAction.backgroundColor = UIColor.clear.withAlphaComponent(0.01)
+        deleteAction.backgroundColor = UIColor.clear.withAlphaComponent(TaskListConstants.backgroundAlpha)
         deleteAction.image = nil
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
