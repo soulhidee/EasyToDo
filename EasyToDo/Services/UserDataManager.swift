@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 
 final class UserDataManager {
+    // MARK: - Constants
     enum UserDataManagerConstants {
         static let compressionQuality = 0.5
     }

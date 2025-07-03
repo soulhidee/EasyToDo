@@ -1,7 +1,7 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    
+    // MARK: - Constants
     enum SplashViewConstants {
         static let animationDelay: TimeInterval = 1.5
     }

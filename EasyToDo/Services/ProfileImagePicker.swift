@@ -1,6 +1,7 @@
 import UIKit
 
 final class ProfileImagePicker: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // MARK: - Constants
     enum ProfileImagePickerConstants {
         static let alertTitle = "Выберите источник"
         static let alertActionCamera = "Камера"
