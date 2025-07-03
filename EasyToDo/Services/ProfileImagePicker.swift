@@ -1,6 +1,13 @@
 import UIKit
 
 final class ProfileImagePicker: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    enum ProfileImagePickerConstants {
+        static let alertTitle = "Выберите источник"
+        static let alertActionCamera = "Камера"
+        static let alertActionPhotoLibrary = "Галерея"
+        static let alertActionCancel = "Отмена"
+    }
+    
     var profileImagePickerController: UIImagePickerController?
     var completion: ((UIImage) -> ())?
     
@@ -8,19 +15,19 @@ final class ProfileImagePicker: NSObject, UIImagePickerControllerDelegate, UINav
     func showImagePicker(in viewController: UIViewController, completion: ((UIImage) -> ())?) {
         self.completion = completion
         
-        let alert = UIAlertController(title: "Выберите источник", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: ProfileImagePickerConstants.alertTitle, message: nil, preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alert.addAction(UIAlertAction(title: "Камера", style: .default) { _ in
+            alert.addAction(UIAlertAction(title: ProfileImagePickerConstants.alertActionCamera, style: .default) { _ in
                 self.presentPicker(in: viewController, sourceType: .camera)
             })
         }
         
-        alert.addAction(UIAlertAction(title: "Галерея", style: .default) { _ in
+        alert.addAction(UIAlertAction(title: ProfileImagePickerConstants.alertActionPhotoLibrary, style: .default) { _ in
             self.presentPicker(in: viewController, sourceType: .photoLibrary)
         })
         
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alert.addAction(UIAlertAction(title: ProfileImagePickerConstants.alertActionCancel, style: .cancel))
         viewController.present(alert, animated: true)
     }
     
